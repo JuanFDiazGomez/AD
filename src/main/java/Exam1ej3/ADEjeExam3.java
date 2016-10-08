@@ -63,7 +63,7 @@ public class ADEjeExam3 {
 				}
 				
 			}catch(EOFException eoef){
-				System.out.println("Fin de Archivo.");
+				System.out.println("Fin de fichero");
 			}catch(FileNotFoundException fnfe){
 				fnfe.printStackTrace();
 			}catch(IOException ioe){
@@ -86,6 +86,9 @@ public class ADEjeExam3 {
 					fileTmp.delete();
 				}
 			}
+                        if(!modificado){
+                            System.out.println("El departamento a modificar no esta creado");
+                        }
 		}else{
 			System.out.println("Debe de ejecutar el programa de la siguiente forma;");
 			System.out.println("\tjava ADEjeExam3 numeroDepartamento nuevoNombre nuevaLocalizacion");
