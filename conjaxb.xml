@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<franquicia>
+    <nombre>InteligenciaNula</nombre>
+    <listaLibreria>
+        <Libreria>
+            <nombre>Prueba</nombre>
+            <lugar>Petrer</lugar>
+            <listaLibro>
+                <Libro>
+                    <autor>Miguel de Cervantes</autor>
+                    <nombre>El quijote</nombre>
+                    <editorial>Planeta</editorial>
+                    <isbn>978-84-1545-297-3</isbn>
+                </Libro>
+                <Libro>
+                    <autor>J.K. Rowling</autor>
+                    <nombre>Harry Potter</nombre>
+                    <editorial>Oxford</editorial>
+                    <isbn>978-84-1545-297-4</isbn>
+                </Libro>
+            </listaLibro>
+        </Libreria>
+        <Libreria>
+            <nombre>Prueba2</nombre>
+            <lugar>Elda</lugar>
+            <listaLibro>
+                <Libro>
+                    <autor>Antonio Perez</autor>
+                    <nombre>Perico El nene</nombre>
+                    <editorial>Pikachu</editorial>
+                    <isbn>125-87-1245-297-3</isbn>
+                </Libro>
+                <Libro>
+                    <autor>J.D. Cowling</autor>
+                    <nombre>Poter Potter</nombre>
+                    <editorial>Oxfird</editorial>
+                    <isbn>9178-84-1545-297-4</isbn>
+                </Libro>
+            </listaLibro>
+        </Libreria>
+        <Libreria>
+            <nombre>Prueba3</nombre>
+            <lugar>Sax</lugar>
+            <listaLibro>
+                <Libro>
+                    <autor>Ciguel de CeMvantes</autor>
+                    <nombre>El pijote</nombre>
+                    <editorial>Plaeta</editorial>
+                    <isbn>978-84-1445-297-3</isbn>
+                </Libro>
+                <Libro>
+                    <autor>J.K. Mowling</autor>
+                    <nombre>Hamy Pomer</nombre>
+                    <editorial>Ozford</editorial>
+                    <isbn>878-84-1545-297-4</isbn>
+                </Libro>
+            </listaLibro>
+        </Libreria>
+    </listaLibreria>
+</franquicia>
