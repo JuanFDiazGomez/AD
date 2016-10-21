@@ -20,19 +20,27 @@ import java.util.logging.Logger;
 public class SQLiteEjemplo1 {
 
     public static void main(String[] args) {
-	String url = "jdbc:sqlite:/home/alumno/Dropbox/AD/Tema2BD/BasesDeDatos/ejemplo.db";
-	Connection conexion = null;
 	try {
+	    Class.forName("org.sqlite.JDBC");
+	    String url = "jdbc:sqlite:/home/alumno/Dropbox/AD/Tema2BD/BasesDeDatos/ejemplo.db";
+	    Connection conexion = null;
 	    conexion = DriverManager.getConnection(url);
 
 	    Statement sentencia = conexion.createStatement();
-	    
+
 	    String sql = "SELECT * FROM empleado";
-	    
+
 	    ResultSet result = sentencia.executeQuery(sql);
-	  
-	} catch (SQLException sqle) {
+	    while (result.next()) {
+		for (int i = 1; i <= result.getMetaData().getColumnCount(); i++) {
+		    System.out.println("Columna " + i + " ->" + result.getMetaData().getColumnLabel(i));
+		}
+	    }
+
+	}catch (SQLException sqle) {
 	    sqle.printStackTrace();
+	}catch (ClassNotFoundException cnfe){
+	    cnfe.printStackTrace();
 	}
     }
 
