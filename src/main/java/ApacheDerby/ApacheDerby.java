@@ -18,14 +18,11 @@ import java.sql.Statement;
 public class ApacheDerby {
     public static void main(String[] args) {
 	try{
-	    System.out.println("aqui si antes");
 	    Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-	    System.out.println("aqui si2");
 	    Connection conexion = DriverManager.getConnection("jdbc:derby:/home/alumno/Dropbox/AD/Apache_Derby/ejemploApacheDB.db");
 	    Statement sentencia = conexion.createStatement();
 	    String sql = "SELECT * FROM departamentos";
 	    ResultSet result = sentencia.executeQuery(sql);
-	    System.out.println("aqui si1");
 	    while(result.next()){
 		System.out.println("ID departamento: "+result.getInt(1)+
 			"\nNombre del departamento: "+result.getString(2)+

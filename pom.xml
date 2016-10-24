@@ -17,5 +17,16 @@
             <artifactId>sqlite-jdbc</artifactId>
             <version>3.14.2.1</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.12.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.3.4</version>
+            <classifier>jdk5</classifier>
+        </dependency>
     </dependencies>
 </project>
