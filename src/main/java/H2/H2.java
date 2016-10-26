@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package HSQLejemplo;
+package H2;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,17 +15,15 @@ import java.sql.Statement;
  *
  * @author alumno
  */
-public class hsqlEjemplo {
-
+public class H2 {
     public static void main(String[] args) {
 
 	try {
-	    String url = "jdbc:hsqldb:/home/alumno/Dropbox/AD/HSQLDB/hsqld_db.db";
-	    Class.forName("org.hsqldb.jdbc.JDBCDriver");
-	    Connection conexion = DriverManager.getConnection(url, "", "");
-	    DriverManager.
+	    String url = "jdbc:h2:/home/alumno/Dropbox/AD/H2/H2BD.db";
+	    Class.forName("org.h2.Driver");
+	    Connection conexion = DriverManager.getConnection(url);
 	    Statement sentencia = conexion.createStatement();
-	    String sql = "SELECT * FROM departamentos";
+	    String sql = "SELECT * FROM empleados";
 	    ResultSet result = sentencia.executeQuery(sql);
 	    while (result.next()) {
 		System.out.println("ID departamento: " + result.getInt(1)
