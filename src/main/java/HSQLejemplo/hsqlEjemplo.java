@@ -23,7 +23,6 @@ public class hsqlEjemplo {
 	    String url = "jdbc:hsqldb:/home/alumno/Dropbox/AD/HSQLDB/hsqld_db.db";
 	    Class.forName("org.hsqldb.jdbc.JDBCDriver");
 	    Connection conexion = DriverManager.getConnection(url, "", "");
-	    DriverManager.
 	    Statement sentencia = conexion.createStatement();
 	    String sql = "SELECT * FROM departamentos";
 	    ResultSet result = sentencia.executeQuery(sql);
