@@ -482,11 +482,10 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bUltimoActionPerformed
     private void mostrarCamposDepartamentos(){
 	try {
-	    String title = new String(String.valueOf(resultCompartido.getRow())+"/"+String.valueOf(maxTamResultSet));
-	    System.out.println(title);
-	    ((TitledBorder)panelInfo.getBorder()).setTitle(title);
-	    ((TitledBorder)panelInfo.getBorder()).setTitle("");
-	    ((TitledBorder)panelInfo.getBorder()).setTitle(title);
+	    ((TitledBorder)panelInfo.getBorder()).setTitle(
+                    String.valueOf(resultCompartido.getRow())
+                            +"/"+String.valueOf(maxTamResultSet));
+            panelInfo.repaint();
 	    TFIdDept.setText(String.valueOf(resultCompartido.getInt("dept_no")));
 	    TFNomDept.setText(resultCompartido.getString("dnombre"));
 	    TFLocDept.setText(resultCompartido.getString("loc"));
