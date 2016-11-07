@@ -57,10 +57,11 @@ public class MainForm extends javax.swing.JFrame {
         labelIdDept = new javax.swing.JLabel();
         TFIdDept = new javax.swing.JTextField();
         panelControles = new javax.swing.JPanel();
+        controlesVisual = new javax.swing.JPanel();
         bAnterior = new javax.swing.JButton();
         bSiguiente = new javax.swing.JButton();
-        bUltimo = new javax.swing.JButton();
         bPrimero = new javax.swing.JButton();
+        bUltimo = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         bInsertar = new javax.swing.JButton();
         bModificar = new javax.swing.JButton();
@@ -146,7 +147,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tabPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelGestionDiaria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE))
+                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -162,7 +163,7 @@ public class MainForm extends javax.swing.JFrame {
         etiquetaSeccion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etiquetaSeccion.setText("Gestion de Departamentos");
 
-        panelInfo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder()), "", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", 0, 12))); // NOI18N
+        panelInfo.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder()), "", javax.swing.border.TitledBorder.RIGHT, javax.swing.border.TitledBorder.BOTTOM));
 
         jPanel3.setPreferredSize(new java.awt.Dimension(112, 33));
 
@@ -265,7 +266,8 @@ public class MainForm extends javax.swing.JFrame {
         panelControles.setPreferredSize(new java.awt.Dimension(405, 41));
 
         bAnterior.setText("<");
-        bAnterior.setPreferredSize(new java.awt.Dimension(48, 25));
+        bAnterior.setPreferredSize(new java.awt.Dimension(48, 31));
+        bAnterior.setRequestFocusEnabled(false);
         bAnterior.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bAnteriorActionPerformed(evt);
@@ -273,56 +275,86 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         bSiguiente.setText(">");
-        bSiguiente.setPreferredSize(new java.awt.Dimension(48, 25));
+        bSiguiente.setPreferredSize(new java.awt.Dimension(48, 31));
+        bSiguiente.setRequestFocusEnabled(false);
         bSiguiente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bSiguienteActionPerformed(evt);
             }
         });
 
-        bUltimo.setText(">|");
-        bUltimo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bUltimoActionPerformed(evt);
-            }
-        });
-
         bPrimero.setText("|<");
+        bPrimero.setPreferredSize(new java.awt.Dimension(48, 31));
         bPrimero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bPrimeroActionPerformed(evt);
             }
         });
 
+        bUltimo.setText(">|");
+        bUltimo.setPreferredSize(new java.awt.Dimension(48, 31));
+        bUltimo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bUltimoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout controlesVisualLayout = new javax.swing.GroupLayout(controlesVisual);
+        controlesVisual.setLayout(controlesVisualLayout);
+        controlesVisualLayout.setHorizontalGroup(
+            controlesVisualLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlesVisualLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(bPrimero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
+        );
+
+        controlesVisualLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {bAnterior, bPrimero, bSiguiente, bUltimo});
+
+        controlesVisualLayout.setVerticalGroup(
+            controlesVisualLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlesVisualLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(controlesVisualLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bUltimo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bPrimero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0))
+        );
+
+        controlesVisualLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {bAnterior, bPrimero, bSiguiente, bUltimo});
+
         javax.swing.GroupLayout panelControlesLayout = new javax.swing.GroupLayout(panelControles);
         panelControles.setLayout(panelControlesLayout);
         panelControlesLayout.setHorizontalGroup(
             panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelControlesLayout.createSequentialGroup()
-                .addContainerGap(55, Short.MAX_VALUE)
-                .addComponent(bPrimero, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bAnterior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bSiguiente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bUltimo)
-                .addGap(51, 51, 51))
+                .addContainerGap(61, Short.MAX_VALUE)
+                .addComponent(controlesVisual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
         );
         panelControlesLayout.setVerticalGroup(
             panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelControlesLayout.createSequentialGroup()
-                .addGap(11, 11, 11)
-                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bSiguiente, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addComponent(bAnterior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bUltimo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bPrimero, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(11, 11, 11))
+                .addContainerGap()
+                .addComponent(controlesVisual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         bInsertar.setText("Insertar");
         bInsertar.setPreferredSize(new java.awt.Dimension(94, 51));
+        bInsertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bInsertarActionPerformed(evt);
+            }
+        });
 
         bModificar.setText("Modificar");
 
@@ -419,11 +451,11 @@ public class MainForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonGesDepartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGesDepartActionPerformed
-        panelTab.setSelectedComponent(this.tabDepartamentos);
+	panelTab.setSelectedComponent(this.tabDepartamentos);
     }//GEN-LAST:event_botonGesDepartActionPerformed
 
     private void botonGesEmpleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGesEmpleActionPerformed
-        panelTab.setSelectedComponent(this.tabEmpleados);
+	panelTab.setSelectedComponent(this.tabEmpleados);
     }//GEN-LAST:event_botonGesEmpleActionPerformed
 
     private void bPrimeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bPrimeroActionPerformed
@@ -436,7 +468,7 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bPrimeroActionPerformed
 
     private void TFIdDeptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFIdDeptActionPerformed
-        // TODO add your handling code here:
+	// TODO add your handling code here:
     }//GEN-LAST:event_TFIdDeptActionPerformed
 
     private void tabDepartamentosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tabDepartamentosComponentShown
@@ -448,7 +480,7 @@ public class MainForm extends javax.swing.JFrame {
 	    maxTamResultSet = resultCompartido.getRow();
 	    resultCompartido.first();
 	    mostrarCamposDepartamentos();
-	    
+
 	} catch (SQLException ex) {
 	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 	}
@@ -473,19 +505,27 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bSiguienteActionPerformed
 
     private void bUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUltimoActionPerformed
-        try {
+	try {
 	    resultCompartido.last();
 	} catch (SQLException ex) {
 	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 	}
 	mostrarCamposDepartamentos();
     }//GEN-LAST:event_bUltimoActionPerformed
-    private void mostrarCamposDepartamentos(){
+
+    private void bInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertarActionPerformed
+	TFIdDept.setEnabled(Boolean.TRUE);
+	TFNomDept.setEnabled(Boolean.TRUE);
+	TFLocDept.setEnabled(Boolean.TRUE);
+	((TitledBorder) panelInfo.getBorder()).setTitle("Nuevo Departamento");
+	panelInfo.repaint();
+	limpiarCamposDepartamento();    }//GEN-LAST:event_bInsertarActionPerformed
+    private void mostrarCamposDepartamentos() {
 	try {
-	    ((TitledBorder)panelInfo.getBorder()).setTitle(
-                    String.valueOf(resultCompartido.getRow())
-                            +"/"+String.valueOf(maxTamResultSet));
-            panelInfo.repaint();
+	    ((TitledBorder) panelInfo.getBorder()).setTitle(
+		    String.valueOf(resultCompartido.getRow())
+		    + "/" + String.valueOf(maxTamResultSet));
+	    panelInfo.repaint();
 	    TFIdDept.setText(String.valueOf(resultCompartido.getInt("dept_no")));
 	    TFNomDept.setText(resultCompartido.getString("dnombre"));
 	    TFLocDept.setText(resultCompartido.getString("loc"));
@@ -493,16 +533,23 @@ public class MainForm extends javax.swing.JFrame {
 	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }
-    
-    private void crearConexionBD(){
+
+    private void limpiarCamposDepartamento() {
+	TFIdDept.setText("");
+	TFNomDept.setText("");
+	TFLocDept.setText("");
+    }
+
+    private void crearConexionBD() {
 	try {
 	    Class.forName("com.mysql.cj.jdbc.Driver");
 	    conexion = DriverManager.getConnection("jdbc:mysql://localhost/MySQLDB.db?useSSL=false", "root", "sephir0th");
-	    
+
 	} catch (ClassNotFoundException | SQLException ex) {
 	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }
+
     /**
      * @param args the command line arguments
      */
@@ -552,6 +599,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton bUltimo;
     private javax.swing.JButton botonGesDepart;
     private javax.swing.JButton botonGesEmple;
+    private javax.swing.JPanel controlesVisual;
     private javax.swing.JLabel etiquetaSeccion;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -569,7 +617,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPanel tabEmpleados;
     private javax.swing.JPanel tabPrincipal;
     // End of variables declaration//GEN-END:variables
-    
+
     // Mis atributos
     private Connection conexion;
     private ResultSet resultCompartido;
