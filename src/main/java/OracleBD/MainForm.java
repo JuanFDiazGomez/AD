@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -25,6 +26,7 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm() {
 	initComponents();
+	controlesVisualAcept.setVisible(Boolean.FALSE);
 	crearConexionBD();
     }
 
@@ -62,6 +64,9 @@ public class MainForm extends javax.swing.JFrame {
         bSiguiente = new javax.swing.JButton();
         bPrimero = new javax.swing.JButton();
         bUltimo = new javax.swing.JButton();
+        controlesVisualAcept = new javax.swing.JPanel();
+        botonCancelar = new javax.swing.JButton();
+        botonAceptar = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         bInsertar = new javax.swing.JButton();
         bModificar = new javax.swing.JButton();
@@ -106,7 +111,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(botonGesDepart)
                 .addGap(45, 45, 45)
                 .addComponent(botonGesEmple)
-                .addContainerGap(145, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         panelMantenimiento.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder()), "Mantenimiento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
@@ -147,7 +152,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tabPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelGestionDiaria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE))
+                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -331,12 +336,51 @@ public class MainForm extends javax.swing.JFrame {
 
         controlesVisualLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {bAnterior, bPrimero, bSiguiente, bUltimo});
 
+        botonCancelar.setText("Cancelar");
+        botonCancelar.setPreferredSize(new java.awt.Dimension(48, 31));
+        botonCancelar.setRequestFocusEnabled(false);
+        botonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarActionPerformed(evt);
+            }
+        });
+
+        botonAceptar.setText("Aceptar");
+        botonAceptar.setPreferredSize(new java.awt.Dimension(48, 31));
+        botonAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAceptarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout controlesVisualAceptLayout = new javax.swing.GroupLayout(controlesVisualAcept);
+        controlesVisualAcept.setLayout(controlesVisualAceptLayout);
+        controlesVisualAceptLayout.setHorizontalGroup(
+            controlesVisualAceptLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlesVisualAceptLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(botonAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        controlesVisualAceptLayout.setVerticalGroup(
+            controlesVisualAceptLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlesVisualAceptLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(controlesVisualAceptLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0))
+        );
+
         javax.swing.GroupLayout panelControlesLayout = new javax.swing.GroupLayout(panelControles);
         panelControles.setLayout(panelControlesLayout);
         panelControlesLayout.setHorizontalGroup(
             panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelControlesLayout.createSequentialGroup()
-                .addContainerGap(61, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(controlesVisualAcept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(controlesVisual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(53, 53, 53))
         );
@@ -344,7 +388,9 @@ public class MainForm extends javax.swing.JFrame {
             panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelControlesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(controlesVisual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelControlesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(controlesVisualAcept, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(controlesVisual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -357,6 +403,11 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         bModificar.setText("Modificar");
+        bModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bModificarActionPerformed(evt);
+            }
+        });
 
         bEliminar.setText("Eliminar");
         bEliminar.setPreferredSize(new java.awt.Dimension(99, 25));
@@ -429,7 +480,7 @@ public class MainForm extends javax.swing.JFrame {
         );
         tabEmpleadosLayout.setVerticalGroup(
             tabEmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 354, Short.MAX_VALUE)
+            .addGap(0, 335, Short.MAX_VALUE)
         );
 
         panelTab.addTab("Empleados", tabEmpleados);
@@ -472,37 +523,15 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_TFIdDeptActionPerformed
 
     private void tabDepartamentosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tabDepartamentosComponentShown
-	try {
-	    Statement sentencia = conexion.createStatement();
+	restaurarDept();
+	/*Statement sentencia = conexion.createStatement();
 	    String sql = "SELECT * FROM departamentos";
 	    resultCompartido = sentencia.executeQuery(sql);
 	    resultCompartido.last();
 	    maxTamResultSet = resultCompartido.getRow();
 	    resultCompartido.first();
-	    mostrarCamposDepartamentos();
-
-	} catch (SQLException ex) {
-	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-	}
+	    mostrarCamposDepartamentos();*/
     }//GEN-LAST:event_tabDepartamentosComponentShown
-
-    private void bAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAnteriorActionPerformed
-	try {
-	    resultCompartido.previous();
-	} catch (SQLException ex) {
-	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-	}
-	mostrarCamposDepartamentos();
-    }//GEN-LAST:event_bAnteriorActionPerformed
-
-    private void bSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSiguienteActionPerformed
-	try {
-	    resultCompartido.next();
-	} catch (SQLException ex) {
-	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-	}
-	mostrarCamposDepartamentos();
-    }//GEN-LAST:event_bSiguienteActionPerformed
 
     private void bUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUltimoActionPerformed
 	try {
@@ -514,12 +543,70 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bUltimoActionPerformed
 
     private void bInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertarActionPerformed
-	TFIdDept.setEnabled(Boolean.TRUE);
-	TFNomDept.setEnabled(Boolean.TRUE);
-	TFLocDept.setEnabled(Boolean.TRUE);
+	TFIdDept.setEditable(Boolean.TRUE);
+	TFNomDept.setEditable(Boolean.TRUE);
+	TFLocDept.setEditable(Boolean.TRUE);
 	((TitledBorder) panelInfo.getBorder()).setTitle("Nuevo Departamento");
 	panelInfo.repaint();
-	limpiarCamposDepartamento();    }//GEN-LAST:event_bInsertarActionPerformed
+	controlesVisual.setVisible(Boolean.FALSE);
+	controlesVisualAcept.setVisible(Boolean.TRUE);
+	limpiarCamposDepartamento();
+    }//GEN-LAST:event_bInsertarActionPerformed
+
+    private void botonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAceptarActionPerformed
+	try {
+	    if (TFIdDept.isEditable()) {
+		String sql = String.format(
+			"INSERT INTO departamentos VALUES('%s', '%s', '%s')",
+			TFIdDept.getText(), TFNomDept.getText(), TFLocDept.getText());
+
+		Statement sentencia = conexion.createStatement();
+		int numInsertados = sentencia.executeUpdate(sql);
+		if(numInsertados > 0){
+		    JOptionPane.showMessageDialog(tabPrincipal, "Insertado Correctamente");
+		}else{
+		    JOptionPane.showMessageDialog(tabPrincipal, "No se ha podido insertar");
+		}
+		restaurarDept();
+	    } else {
+
+	    }
+
+	} catch (SQLException ex) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	}
+    }//GEN-LAST:event_botonAceptarActionPerformed
+
+    private void bSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSiguienteActionPerformed
+	try {
+	    if (resultCompartido.getRow() < maxTamResultSet) {
+		resultCompartido.next();
+	    }
+	} catch (SQLException ex) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	mostrarCamposDepartamentos();
+    }//GEN-LAST:event_bSiguienteActionPerformed
+
+    private void bAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAnteriorActionPerformed
+	try {
+	    if (resultCompartido.getRow() > 1) {
+		resultCompartido.previous();
+	    }
+	} catch (SQLException ex) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	}
+	mostrarCamposDepartamentos();
+    }//GEN-LAST:event_bAnteriorActionPerformed
+
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+	limpiarCamposDepartamento();// TODO add your handling code here:
+    }//GEN-LAST:event_botonCancelarActionPerformed
+
+    private void bModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModificarActionPerformed
+	TFIdDept.setEditable(Boolean.FALSE);
+	controlesVisualAcept.setVisible(Boolean.TRUE);
+    }//GEN-LAST:event_bModificarActionPerformed
     private void mostrarCamposDepartamentos() {
 	try {
 	    ((TitledBorder) panelInfo.getBorder()).setTitle(
@@ -546,6 +633,27 @@ public class MainForm extends javax.swing.JFrame {
 	    conexion = DriverManager.getConnection("jdbc:mysql://localhost/MySQLDB.db?useSSL=false", "root", "sephir0th");
 
 	} catch (ClassNotFoundException | SQLException ex) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	}
+    }
+
+    private void restaurarDept() {
+	try {
+	    // TODO add your handling code here:
+	    TFIdDept.setEditable(Boolean.FALSE);
+	    TFLocDept.setEditable(Boolean.FALSE);
+	    TFNomDept.setEditable(Boolean.FALSE);
+	    controlesVisualAcept.setVisible(Boolean.FALSE);
+	    controlesVisual.setEnabled(Boolean.TRUE);
+	    panelControles.repaint();
+	    Statement sentencia = conexion.createStatement();
+	    String sql = "SELECT * FROM departamentos";
+	    resultCompartido = sentencia.executeQuery(sql);
+	    resultCompartido.last();
+	    maxTamResultSet = resultCompartido.getRow();
+	    resultCompartido.first();
+	    mostrarCamposDepartamentos();
+	} catch (SQLException ex) {
 	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }
@@ -597,9 +705,12 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton bPrimero;
     private javax.swing.JButton bSiguiente;
     private javax.swing.JButton bUltimo;
+    private javax.swing.JButton botonAceptar;
+    private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonGesDepart;
     private javax.swing.JButton botonGesEmple;
     private javax.swing.JPanel controlesVisual;
+    private javax.swing.JPanel controlesVisualAcept;
     private javax.swing.JLabel etiquetaSeccion;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
