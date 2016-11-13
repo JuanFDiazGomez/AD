@@ -173,7 +173,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(tabPrincipalLayout.createSequentialGroup()
                         .addComponent(panelGestionDiaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)))
+                        .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         tabPrincipalLayout.setVerticalGroup(
@@ -183,7 +183,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tabPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelGestionDiaria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))
+                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -282,8 +282,8 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(panelInfoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -615,6 +615,11 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         BInsertar.setText("Insertar");
+        BInsertar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BInsertarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout JPConInsLayout = new javax.swing.GroupLayout(JPConIns);
         JPConIns.setLayout(JPConInsLayout);
@@ -732,8 +737,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(tabEmpleadosLayout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(BInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)))
+                        .addComponent(BInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -907,6 +911,25 @@ public class MainForm extends javax.swing.JFrame {
 	    mostrarCamposEmpleado();
 	}
     }//GEN-LAST:event_BConsultarActionPerformed
+
+    private void BInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BInsertarActionPerformed
+        toogleEditableTFEmple();
+        mostrarCamposDeptYDir();
+        
+    }//GEN-LAST:event_BInsertarActionPerformed
+    private void mostrarCamposDeptYDir(){
+        try {
+        String sql = "SELECT * FROM departamentos";
+        Statement sentencia;
+        
+            sentencia = conexion.createStatement();
+        
+        resultCompartido = sentencia.executeQuery(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void mostrarCamposEmpleado(){
 	try {
 		String sql = "SELECT * FROM empleados WHERE emp_no=?";
@@ -928,13 +951,23 @@ public class MainForm extends javax.swing.JFrame {
 			Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 		    }
 		    TFFAltEmp.setText(fecha);
-		    
+		    int DeptNo = result.getInt("dept_no");
+                    int idDir = result.getInt("dir");
 		    sql = "SELECT dnombre FROM departamentos WHERE dept_no = ?";
 		    pStatement = conexion.prepareStatement(sql);
-		    pStatement.setInt(1,result.getInt("dept_no"));
+		    pStatement.setInt(1,DeptNo);
 		    result = pStatement.executeQuery();
 		    if(result.next()){
 			CBDeptEmp.addItem(result.getString(1));
+		    }
+                    
+                    sql = "SELECT emp_no, apellido FROM empleados WHERE dept_no = ?";
+		    pStatement = conexion.prepareStatement(sql);
+		    pStatement.setInt(1,idDir);
+		    result = pStatement.executeQuery();
+		    if(result.next()){
+                        String str_infoDir = String.valueOf(result.getInt(1))+", "+result.getString(2);
+			CBDeptEmp.addItem(str_infoDir);
 		    }
 		}else{
 		    JOptionPane.showMessageDialog(tabEmpleados, "El id no se encuentra en nuestra BBDD");
@@ -948,8 +981,8 @@ public class MainForm extends javax.swing.JFrame {
     }
     
     private void toogleEditableTFEmple(){
-	if(TFNomDept.isEditable()){
-	    TFNomDept.setEditable(Boolean.FALSE);
+	if(TFApeEmp.isEditable()){
+	    TFApeEmp.setEditable(Boolean.FALSE);
 	    TFOfiEmp.setEditable(Boolean.FALSE);
 	    TFSalEmp.setEditable(Boolean.FALSE);
 	    TFComEmp.setEditable(Boolean.FALSE);

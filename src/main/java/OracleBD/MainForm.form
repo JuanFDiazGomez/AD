@@ -68,7 +68,7 @@
                           <Group type="102" attributes="0">
                               <Component id="panelGestionDiaria" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="panelMantenimiento" pref="292" max="32767" attributes="0"/>
+                              <Component id="panelMantenimiento" pref="285" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -82,7 +82,7 @@
                       <EmptySpace min="-2" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="panelGestionDiaria" max="32767" attributes="0"/>
-                          <Component id="panelMantenimiento" pref="289" max="32767" attributes="0"/>
+                          <Component id="panelMantenimiento" pref="295" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -276,8 +276,8 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanel4" pref="554" max="32767" attributes="0"/>
-                              <Component id="jPanel3" alignment="0" pref="554" max="32767" attributes="0"/>
+                              <Component id="jPanel4" pref="547" max="32767" attributes="0"/>
+                              <Component id="jPanel3" alignment="0" pref="547" max="32767" attributes="0"/>
                               <Component id="jPanel5" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -697,7 +697,6 @@
                               <Component id="jPanel1" min="-2" pref="271" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="BInicio" min="-2" pref="37" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -899,7 +898,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="JPConIns" min="-2" pref="84" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="JPModEliminar" linkSize="8" min="-2" max="-2" attributes="0"/>
+                          <Component id="JPModEliminar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -946,6 +945,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Insertar"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="BInsertarActionPerformed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
