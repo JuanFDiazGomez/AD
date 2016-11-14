@@ -102,6 +102,7 @@ public class MainForm extends javax.swing.JFrame {
         JPAceptarCancelar = new javax.swing.JPanel();
         BAceptar = new javax.swing.JButton();
         BCancelar = new javax.swing.JButton();
+        bRestaurar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -142,7 +143,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(botonGesDepart)
                 .addGap(45, 45, 45)
                 .addComponent(botonGesEmple)
-                .addContainerGap(138, Short.MAX_VALUE))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         panelMantenimiento.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder()), "Mantenimiento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
@@ -173,7 +174,7 @@ public class MainForm extends javax.swing.JFrame {
                     .addGroup(tabPrincipalLayout.createSequentialGroup()
                         .addComponent(panelGestionDiaria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)))
+                        .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         tabPrincipalLayout.setVerticalGroup(
@@ -183,7 +184,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tabPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelGestionDiaria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE))
+                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -282,8 +283,8 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(panelInfoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -568,7 +569,7 @@ public class MainForm extends javax.swing.JFrame {
         JPInfoEmpleLayout.setVerticalGroup(
             JPInfoEmpleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPInfoEmpleLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(30, Short.MAX_VALUE)
                 .addGroup(JPInfoEmpleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(TFNumEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -644,11 +645,41 @@ public class MainForm extends javax.swing.JFrame {
 
         JPConInsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {BConsultar, BInsertar});
 
+        JPModEliminar.setPreferredSize(new java.awt.Dimension(171, 100));
+
         BEliminar.setText("Eliminar");
 
         BModificar.setText("Modificar");
 
+        javax.swing.GroupLayout JPModEliminarLayout = new javax.swing.GroupLayout(JPModEliminar);
+        JPModEliminar.setLayout(JPModEliminarLayout);
+        JPModEliminarLayout.setHorizontalGroup(
+            JPModEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JPModEliminarLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(JPModEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BModificar, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+                    .addComponent(BEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        JPModEliminarLayout.setVerticalGroup(
+            JPModEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPModEliminarLayout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(BModificar)
+                .addGap(18, 18, 18)
+                .addComponent(BEliminar)
+                .addGap(116, 116, 116))
+        );
+
+        JPModEliminarLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {BEliminar, BModificar});
+
         BAceptar.setText("Aceptar");
+        BAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BAceptarActionPerformed(evt);
+            }
+        });
 
         BCancelar.setText("Cancelar");
 
@@ -673,31 +704,12 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout JPModEliminarLayout = new javax.swing.GroupLayout(JPModEliminar);
-        JPModEliminar.setLayout(JPModEliminarLayout);
-        JPModEliminarLayout.setHorizontalGroup(
-            JPModEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(JPModEliminarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(JPModEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BModificar, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
-                    .addComponent(BEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
-                .addContainerGap())
-            .addComponent(JPAceptarCancelar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        JPModEliminarLayout.setVerticalGroup(
-            JPModEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPModEliminarLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(BModificar)
-                .addGap(18, 18, 18)
-                .addComponent(BEliminar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(JPAceptarCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        JPModEliminarLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {BEliminar, BModificar});
+        bRestaurar.setText("Restaurar");
+        bRestaurar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bRestaurarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -705,14 +717,30 @@ public class MainForm extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(JPModEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(JPConIns, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(bRestaurar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(JPAceptarCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(JPConIns, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(JPModEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bRestaurar)
+                .addGap(23, 23, 23))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(103, 103, 103)
+                    .addComponent(JPAceptarCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(91, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout tabEmpleadosLayout = new javax.swing.GroupLayout(tabEmpleados);
@@ -735,8 +763,8 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(tabEmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(JPInfoEmple, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(tabEmpleadosLayout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(BInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -885,127 +913,193 @@ public class MainForm extends javax.swing.JFrame {
 		Statement sentencia = conexion.createStatement();
 		String sql = String.format("DELETE FROM departamentos WHERE dept_no='%s'", TFIdDept.getText());
 		if (sentencia.executeUpdate(sql) > 0) {
-		    JOptionPane.showMessageDialog(tabDepartamentos, "El departamento "+TFNomDept.getText()+" ha sido borrado.");
+		    JOptionPane.showMessageDialog(tabDepartamentos, "El departamento " + TFNomDept.getText() + " ha sido borrado.");
 		}
 	    } catch (SQLException ex) {
 		Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-	    }finally{
+	    } finally {
 		restaurarDept();
 	    }
 	}
     }//GEN-LAST:event_bEliminarActionPerformed
 
     private void tabEmpleadosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tabEmpleadosComponentShown
-	toogleEditableTFEmple();
-	if(JPAceptarCancelar.isVisible()){
-	    toogleMostarAceptarCancelar();
-	}
-	if(JPModEliminar.isVisible()){
-	    toogleMostrarModificarEliminar();
-	}
-	
+	JPAceptarCancelar.setVisible(Boolean.FALSE);
+	JPModEliminar.setVisible(Boolean.FALSE);
+	limpiarCamposEmple();
     }//GEN-LAST:event_tabEmpleadosComponentShown
 
     private void BConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BConsultarActionPerformed
-        if(!TFNumEmp.getText().isEmpty()){
+	if (!TFNumEmp.getText().isEmpty()) {
+	    desactivarCamposEmpleEditable();
 	    mostrarCamposEmpleado();
 	}
     }//GEN-LAST:event_BConsultarActionPerformed
 
     private void BInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BInsertarActionPerformed
-        toogleEditableTFEmple();
-        mostrarCamposDeptYDir();
-        
+	JPAceptarCancelar.setVisible(Boolean.TRUE);
+	activarCamposEditable();
+	mostrarCamposDeptYDir();
     }//GEN-LAST:event_BInsertarActionPerformed
-    private void mostrarCamposDeptYDir(){
-        try {
-        String sql = "SELECT * FROM departamentos";
-        Statement sentencia;
-        
-            sentencia = conexion.createStatement();
-        
-        resultCompartido = sentencia.executeQuery(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void mostrarCamposEmpleado(){
+
+    private void bRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRestaurarActionPerformed
+        limpiarCamposEmple();
+	desactivarCamposEmpleEditable();
+	TFNumEmp.setEditable(Boolean.TRUE);
+	JPAceptarCancelar.setVisible(Boolean.FALSE);
+	JPModEliminar.setVisible(Boolean.FALSE);
+	
+    }//GEN-LAST:event_bRestaurarActionPerformed
+
+    private void BAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAceptarActionPerformed
+        if(TFNumEmp.isEditable()){
+	    insertarEmpleado();
+	}else{
+	    modificarEmpleado();
+	}
+    }//GEN-LAST:event_BAceptarActionPerformed
+
+    private void insertarEmpleado(){
 	try {
-		String sql = "SELECT * FROM empleados WHERE emp_no=?";
-		PreparedStatement pStatement = conexion.prepareStatement(sql);
-		pStatement.setInt(1, Integer.parseInt(TFNumEmp.getText()));
-		ResultSet result = pStatement.executeQuery();
-		if(result.next()){
-		    toogleMostrarModificarEliminar();
-		    TFApeEmp.setText(result.getString("apellido"));
-		    TFOfiEmp.setText(result.getString("oficio"));
-		    TFSalEmp.setText(String.valueOf(result.getDouble("salario")));
-		    TFComEmp.setText(String.valueOf(result.getDouble("comision")));
-		    CBDirEmp.removeAllItems();
-		    CBDirEmp.addItem(String.valueOf(result.getInt("dir")));
-		    String fecha = null;
-		    try {
-			fecha = TFFAltEmp.getFormatter().valueToString(result.getDate("fecha_alt"));
-		    } catch (ParseException ex) {
-			Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-		    }
-		    TFFAltEmp.setText(fecha);
-		    int DeptNo = result.getInt("dept_no");
-                    int idDir = result.getInt("dir");
-		    sql = "SELECT dnombre FROM departamentos WHERE dept_no = ?";
-		    pStatement = conexion.prepareStatement(sql);
-		    pStatement.setInt(1,DeptNo);
-		    result = pStatement.executeQuery();
-		    if(result.next()){
-			CBDeptEmp.addItem(result.getString(1));
-		    }
-                    
-                    sql = "SELECT emp_no, apellido FROM empleados WHERE dept_no = ?";
-		    pStatement = conexion.prepareStatement(sql);
-		    pStatement.setInt(1,idDir);
-		    result = pStatement.executeQuery();
-		    if(result.next()){
-                        String str_infoDir = String.valueOf(result.getInt(1))+", "+result.getString(2);
-			CBDeptEmp.addItem(str_infoDir);
-		    }
-		}else{
-		    JOptionPane.showMessageDialog(tabEmpleados, "El id no se encuentra en nuestra BBDD");
-		}
-		
-	    } catch (SQLException ex) {
-		Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
-	    }
+	    String nuevoEmp_no = TFNumEmp.getText();
+	    String nuevoEmpApellido = TFApeEmp.getText();
+	    String nuevoEmpOficio = TFOfiEmp.getText();
+	    String nuevoEmpSalario = TFSalEmp.getText();
+	    String nuevoEmpComision = TFComEmp.getText();
+	    String nuevoEmpFechaAlt = TFFAltEmp.getText();
+	    String nuevoEmpDept = CBDeptEmp.getItemAt(0).substring(0, 3);
+	    String nuevoEmpDir = CBDirEmp.getItemAt(0);
+	    if(nuevoEmpDir.equals("Sin Director")) {nuevoEmpDir = "0";}
+	    String sql = String.format(
+		    "INSERT INTO empleados VALUES('%d', '%s', '%s', '%d', '%s', '%d', '%d', '%d')",
+		    Integer.parseInt(nuevoEmp_no), nuevoEmpApellido, nuevoEmpOficio, Integer.parseInt(nuevoEmpSalario),
+		    Integer.parseInt(nuevoEmpComision), nuevoEmpFechaAlt, Integer.parseInt(nuevoEmpDept), Integer.parseInt(nuevoEmpDir));
+	    Statement sentencia = conexion.createStatement();
+	    int numInsertado = sentencia.executeUpdate(sql);
 	    
-	    
-    }
-    
-    private void toogleEditableTFEmple(){
-	if(TFApeEmp.isEditable()){
-	    TFApeEmp.setEditable(Boolean.FALSE);
-	    TFOfiEmp.setEditable(Boolean.FALSE);
-	    TFSalEmp.setEditable(Boolean.FALSE);
-	    TFComEmp.setEditable(Boolean.FALSE);
-	    TFFAltEmp.setEditable(Boolean.FALSE);
-	    CBDeptEmp.setEditable(Boolean.FALSE);
-	    CBDirEmp.setEditable(Boolean.FALSE);
+	} catch (SQLException ex) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }
-    private void toogleMostrarModificarEliminar(){
-	if(JPModEliminar.isVisible()){
+    private void mostrarCamposDeptYDir() {
+	try {
+	    String sql = "SELECT * FROM departamentos";
+	    Statement sentencia = conexion.createStatement();
+	    resultCompartido = sentencia.executeQuery(sql);
+
+	    while (resultCompartido.next()) {
+		String depart = String.valueOf(resultCompartido.getInt("dept_no")) + " | " + resultCompartido.getString("dnombre");
+		CBDeptEmp.addItem(depart);
+	    }
+
+	    sql = "SELECT * FROM empleados";
+	    sentencia = conexion.createStatement();
+	    resultCompartido = sentencia.executeQuery(sql);
+	    String no_dir = "Sin director";
+	    CBDirEmp.addItem(no_dir);
+	    while (resultCompartido.next()) {
+		String dir = String.valueOf(resultCompartido.getInt("emp_no")) + " | " + resultCompartido.getString("apellido");
+		CBDirEmp.addItem(dir);
+	    }
+
+	} catch (SQLException ex) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	}
+    }
+
+    private void mostrarCamposEmpleado() {
+	try {
+	    String sql = "SELECT * FROM empleados WHERE emp_no=?";
+	    PreparedStatement pStatement = conexion.prepareStatement(sql);
+	    pStatement.setInt(1, Integer.parseInt(TFNumEmp.getText()));
+	    resultCompartido = pStatement.executeQuery();
+	    if (resultCompartido.next()) {
+		toogleMostrarModificarEliminar();
+		TFApeEmp.setText(resultCompartido.getString("apellido"));
+		TFOfiEmp.setText(resultCompartido.getString("oficio"));
+		TFSalEmp.setText(String.valueOf(resultCompartido.getDouble("salario")));
+		TFComEmp.setText(String.valueOf(resultCompartido.getDouble("comision")));
+		String fecha = null;
+		try {
+		    fecha = TFFAltEmp.getFormatter().valueToString(resultCompartido.getDate("fecha_alt"));
+		} catch (ParseException ex) {
+		    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		TFFAltEmp.setText(fecha);
+		int DeptNo = resultCompartido.getInt("dept_no");
+		int idDir = resultCompartido.getInt("dir");
+		sql = "SELECT dept_no, dnombre FROM departamentos WHERE dept_no = ?";
+		pStatement = conexion.prepareStatement(sql);
+		pStatement.setInt(1, DeptNo);
+		resultCompartido = pStatement.executeQuery();
+		if (resultCompartido.next()) {
+		    String str_dept = String.valueOf(resultCompartido.getInt(1)) + " | " + resultCompartido.getString(2);
+		    CBDeptEmp.addItem(str_dept);
+		}
+
+		sql = "SELECT emp_no,apellido FROM empleados WHERE dept_no = ?";
+		pStatement = conexion.prepareStatement(sql);
+		pStatement.setInt(1, idDir);
+		resultCompartido = pStatement.executeQuery();
+		if (resultCompartido.next()) {
+		    if (resultCompartido.getInt(1) != 0) {
+			String str_infoDir = String.valueOf(resultCompartido.getInt(1)) + " | " + resultCompartido.getString(2);
+			CBDirEmp.addItem(str_infoDir);
+		    }
+		} else {
+		    CBDirEmp.addItem("Sin Director");
+		}
+	    } else {
+		JOptionPane.showMessageDialog(tabEmpleados, "El id no se encuentra en nuestra BBDD");
+	    }
+
+	} catch (SQLException ex) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	}
+
+    }
+
+    private void limpiarCamposEmple() {
+	TFNumEmp.setText("");
+	TFApeEmp.setText("");
+	TFOfiEmp.setText("");
+	TFSalEmp.setText("");
+	TFComEmp.setText("");
+	TFFAltEmp.setText("");
+	CBDeptEmp.removeAllItems();
+	CBDirEmp.removeAllItems();
+    }
+
+    private void desactivarCamposEmpleEditable() {
+	TFNumEmp.setEditable(Boolean.FALSE);
+	TFApeEmp.setEditable(Boolean.FALSE);
+	TFOfiEmp.setEditable(Boolean.FALSE);
+	TFSalEmp.setEditable(Boolean.FALSE);
+	TFComEmp.setEditable(Boolean.FALSE);
+	TFFAltEmp.setEditable(Boolean.FALSE);
+	CBDeptEmp.setEditable(Boolean.FALSE);
+	CBDirEmp.setEditable(Boolean.FALSE);
+    }
+
+    private void activarCamposEditable() {
+	TFApeEmp.setEditable(Boolean.TRUE);
+	TFOfiEmp.setEditable(Boolean.TRUE);
+	TFSalEmp.setEditable(Boolean.TRUE);
+	TFComEmp.setEditable(Boolean.TRUE);
+	TFFAltEmp.setEditable(Boolean.TRUE);
+	CBDeptEmp.setEditable(Boolean.TRUE);
+	CBDirEmp.setEditable(Boolean.TRUE);
+
+    }
+
+    private void toogleMostrarModificarEliminar() {
+	if (JPModEliminar.isVisible()) {
 	    JPModEliminar.setVisible(Boolean.FALSE);
-	}else{
+	} else {
 	    JPModEliminar.setVisible(Boolean.TRUE);
 	}
     }
-    
-    private void toogleMostarAceptarCancelar(){
-	if(JPAceptarCancelar.isVisible()){
-	    JPAceptarCancelar.setVisible(Boolean.FALSE);
-	}else{
-	    JPAceptarCancelar.setVisible(Boolean.TRUE);
-	}
-    }
+
     private void mostrarCamposDepartamentos() {
 	try {
 	    ((TitledBorder) panelInfo.getBorder()).setTitle(
@@ -1121,6 +1215,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton bInsertar;
     private javax.swing.JButton bModificar;
     private javax.swing.JButton bPrimero;
+    private javax.swing.JButton bRestaurar;
     private javax.swing.JButton bSiguiente;
     private javax.swing.JButton bUltimo;
     private javax.swing.JButton botonAceptar;
