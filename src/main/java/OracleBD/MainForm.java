@@ -6,6 +6,7 @@
 package OracleBD;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -184,7 +185,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tabPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelGestionDiaria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 307, Short.MAX_VALUE))
+                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -529,8 +530,7 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabel13.setText("Fecha Alta:");
 
-        TFFAltEmp.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-        TFFAltEmp.setText("dd/mm/yy");
+        TFFAltEmp.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
 
         jLabel4.setText("Departamento:");
 
@@ -569,7 +569,7 @@ public class MainForm extends javax.swing.JFrame {
         JPInfoEmpleLayout.setVerticalGroup(
             JPInfoEmpleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPInfoEmpleLayout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(JPInfoEmpleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(TFNumEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -943,23 +943,23 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_BInsertarActionPerformed
 
     private void bRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRestaurarActionPerformed
-        limpiarCamposEmple();
+	limpiarCamposEmple();
 	desactivarCamposEmpleEditable();
 	TFNumEmp.setEditable(Boolean.TRUE);
 	JPAceptarCancelar.setVisible(Boolean.FALSE);
 	JPModEliminar.setVisible(Boolean.FALSE);
-	
+
     }//GEN-LAST:event_bRestaurarActionPerformed
 
     private void BAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAceptarActionPerformed
-        if(TFNumEmp.isEditable()){
+	if (TFNumEmp.isEditable()) {
 	    insertarEmpleado();
-	}else{
-	    modificarEmpleado();
+	} else {
+	    //modificarEmpleado();
 	}
     }//GEN-LAST:event_BAceptarActionPerformed
 
-    private void insertarEmpleado(){
+    private void insertarEmpleado() {
 	try {
 	    String nuevoEmp_no = TFNumEmp.getText();
 	    String nuevoEmpApellido = TFApeEmp.getText();
@@ -967,20 +967,31 @@ public class MainForm extends javax.swing.JFrame {
 	    String nuevoEmpSalario = TFSalEmp.getText();
 	    String nuevoEmpComision = TFComEmp.getText();
 	    String nuevoEmpFechaAlt = TFFAltEmp.getText();
-	    String nuevoEmpDept = CBDeptEmp.getItemAt(0).substring(0, 3);
-	    String nuevoEmpDir = CBDirEmp.getItemAt(0);
-	    if(nuevoEmpDir.equals("Sin Director")) {nuevoEmpDir = "0";}
-	    String sql = String.format(
-		    "INSERT INTO empleados VALUES('%d', '%s', '%s', '%d', '%s', '%d', '%d', '%d')",
-		    Integer.parseInt(nuevoEmp_no), nuevoEmpApellido, nuevoEmpOficio, Integer.parseInt(nuevoEmpSalario),
-		    Integer.parseInt(nuevoEmpComision), nuevoEmpFechaAlt, Integer.parseInt(nuevoEmpDept), Integer.parseInt(nuevoEmpDir));
-	    Statement sentencia = conexion.createStatement();
-	    int numInsertado = sentencia.executeUpdate(sql);
+	    String nuevoEmpDept = ((String) CBDeptEmp.getSelectedItem()).substring(0, 2);
+	    String nuevoEmpDir = (String) CBDirEmp.getSelectedItem();
+	    if (nuevoEmpDir.equals("Sin Director")) {
+		nuevoEmpDir = "0";
+	    } else {
+		nuevoEmpDir = nuevoEmpDir.substring(0, 4);
+	    }
 	    
+	    String sql = "INSERT INTO empleados VALUES(?,?,?,?,?,?,?,?)";
+	    PreparedStatement sentencia = conexion.prepareStatement(sql);
+	    sentencia.setInt(1, Integer.parseInt(nuevoEmp_no));
+	    sentencia.setString(2, nuevoEmpApellido);
+	    sentencia.setString(3, nuevoEmpOficio);
+	    sentencia.setInt(4, Integer.parseInt(nuevoEmpDir));
+	    sentencia.setDate(5, Date.valueOf(nuevoEmpFechaAlt));
+	    sentencia.setDouble(6, Double.parseDouble(nuevoEmpSalario));
+	    sentencia.setDouble(7, Double.parseDouble(nuevoEmpComision));
+	    sentencia.setInt(8, Integer.parseInt(nuevoEmpDept));
+	    int numInsertado = sentencia.executeUpdate();
+
 	} catch (SQLException ex) {
 	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }
+
     private void mostrarCamposDeptYDir() {
 	try {
 	    String sql = "SELECT * FROM departamentos";
