@@ -3,20 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+// poner en el driver ?allowMultiQueries=true
 package OracleBD;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
-import java.sql.Date;
+import java.util.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileSystemView;
 
 /**
  *
@@ -48,6 +56,10 @@ public class MainForm extends javax.swing.JFrame {
         botonGesDepart = new javax.swing.JButton();
         botonGesEmple = new javax.swing.JButton();
         panelMantenimiento = new javax.swing.JPanel();
+        botonEjecutarScripts = new javax.swing.JButton();
+        bCrearTablas = new javax.swing.JButton();
+        bBorrarTablas = new javax.swing.JButton();
+        bInsertarDatos = new javax.swing.JButton();
         LabelMainHead = new javax.swing.JLabel();
         tabDepartamentos = new javax.swing.JPanel();
         etiquetaSeccion = new javax.swing.JLabel();
@@ -97,13 +109,16 @@ public class MainForm extends javax.swing.JFrame {
         JPConIns = new javax.swing.JPanel();
         BConsultar = new javax.swing.JButton();
         BInsertar = new javax.swing.JButton();
-        JPModEliminar = new javax.swing.JPanel();
-        BEliminar = new javax.swing.JButton();
         BModificar = new javax.swing.JButton();
-        JPAceptarCancelar = new javax.swing.JPanel();
+        BEliminar = new javax.swing.JButton();
         BAceptar = new javax.swing.JButton();
         BCancelar = new javax.swing.JButton();
-        bRestaurar = new javax.swing.JButton();
+        BVolver = new javax.swing.JButton();
+        TabScripts = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TAContenidoScript = new javax.swing.JTextArea();
+        bEjeScript = new javax.swing.JButton();
+        bAbrirScript = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -144,21 +159,50 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(botonGesDepart)
                 .addGap(45, 45, 45)
                 .addComponent(botonGesEmple)
-                .addContainerGap(156, Short.MAX_VALUE))
+                .addContainerGap(138, Short.MAX_VALUE))
         );
 
         panelMantenimiento.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder()), "Mantenimiento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         panelMantenimiento.setPreferredSize(new java.awt.Dimension(284, 297));
 
+        botonEjecutarScripts.setText("Ejecutar Scripts");
+        botonEjecutarScripts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEjecutarScriptsActionPerformed(evt);
+            }
+        });
+
+        bCrearTablas.setText("Crear Tablas");
+
+        bBorrarTablas.setText("Borrar Tablas");
+
+        bInsertarDatos.setText("Insertar Datos");
+
         javax.swing.GroupLayout panelMantenimientoLayout = new javax.swing.GroupLayout(panelMantenimiento);
         panelMantenimiento.setLayout(panelMantenimientoLayout);
         panelMantenimientoLayout.setHorizontalGroup(
             panelMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 284, Short.MAX_VALUE)
+            .addGroup(panelMantenimientoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonEjecutarScripts, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                    .addComponent(bCrearTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bBorrarTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bInsertarDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         panelMantenimientoLayout.setVerticalGroup(
             panelMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMantenimientoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(bCrearTablas)
+                .addGap(18, 18, 18)
+                .addComponent(bBorrarTablas)
+                .addGap(18, 18, 18)
+                .addComponent(bInsertarDatos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(botonEjecutarScripts)
+                .addContainerGap())
         );
 
         LabelMainHead.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -622,57 +666,9 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout JPConInsLayout = new javax.swing.GroupLayout(JPConIns);
-        JPConIns.setLayout(JPConInsLayout);
-        JPConInsLayout.setHorizontalGroup(
-            JPConInsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(JPConInsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(JPConInsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BInsertar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        JPConInsLayout.setVerticalGroup(
-            JPConInsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPConInsLayout.createSequentialGroup()
-                .addGap(8, 8, 8)
-                .addComponent(BConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(BInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        JPConInsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {BConsultar, BInsertar});
-
-        JPModEliminar.setPreferredSize(new java.awt.Dimension(171, 100));
-
-        BEliminar.setText("Eliminar");
-
         BModificar.setText("Modificar");
 
-        javax.swing.GroupLayout JPModEliminarLayout = new javax.swing.GroupLayout(JPModEliminar);
-        JPModEliminar.setLayout(JPModEliminarLayout);
-        JPModEliminarLayout.setHorizontalGroup(
-            JPModEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(JPModEliminarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(JPModEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BModificar, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
-                    .addComponent(BEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        JPModEliminarLayout.setVerticalGroup(
-            JPModEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, JPModEliminarLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(BModificar)
-                .addGap(18, 18, 18)
-                .addComponent(BEliminar)
-                .addGap(116, 116, 116))
-        );
-
-        JPModEliminarLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {BEliminar, BModificar});
+        BEliminar.setText("Eliminar");
 
         BAceptar.setText("Aceptar");
         BAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -683,31 +679,46 @@ public class MainForm extends javax.swing.JFrame {
 
         BCancelar.setText("Cancelar");
 
-        javax.swing.GroupLayout JPAceptarCancelarLayout = new javax.swing.GroupLayout(JPAceptarCancelar);
-        JPAceptarCancelar.setLayout(JPAceptarCancelarLayout);
-        JPAceptarCancelarLayout.setHorizontalGroup(
-            JPAceptarCancelarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(JPAceptarCancelarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(JPAceptarCancelarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
-                    .addComponent(BCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+        javax.swing.GroupLayout JPConInsLayout = new javax.swing.GroupLayout(JPConIns);
+        JPConIns.setLayout(JPConInsLayout);
+        JPConInsLayout.setHorizontalGroup(
+            JPConInsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JPConInsLayout.createSequentialGroup()
+                .addComponent(BCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BInsertar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(JPConInsLayout.createSequentialGroup()
+                .addComponent(BAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BConsultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        JPAceptarCancelarLayout.setVerticalGroup(
-            JPAceptarCancelarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(JPAceptarCancelarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(BAceptar)
+        JPConInsLayout.setVerticalGroup(
+            JPConInsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(JPConInsLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(JPConInsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BModificar)
+                    .addComponent(BAceptar))
                 .addGap(18, 18, 18)
-                .addComponent(BCancelar)
-                .addContainerGap())
+                .addGroup(JPConInsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BInsertar, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BEliminar)
+                    .addComponent(BCancelar)))
         );
 
-        bRestaurar.setText("Restaurar");
-        bRestaurar.addActionListener(new java.awt.event.ActionListener() {
+        JPConInsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {BConsultar, BInsertar});
+
+        JPConInsLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {BEliminar, BModificar});
+
+        BVolver.setText("Volver");
+        BVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bRestaurarActionPerformed(evt);
+                BVolverActionPerformed(evt);
             }
         });
 
@@ -715,32 +726,21 @@ public class MainForm extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(JPModEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(JPConIns, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(bRestaurar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(JPConIns, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(BVolver, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(JPAceptarCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(JPConIns, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(JPModEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(JPConIns, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(bRestaurar)
-                .addGap(23, 23, 23))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(103, 103, 103)
-                    .addComponent(JPAceptarCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(91, Short.MAX_VALUE)))
+                .addComponent(BVolver)
+                .addGap(28, 28, 28))
         );
 
         javax.swing.GroupLayout tabEmpleadosLayout = new javax.swing.GroupLayout(tabEmpleados);
@@ -753,7 +753,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(tabEmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(BInicio, javax.swing.GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
                 .addContainerGap())
         );
         tabEmpleadosLayout.setVerticalGroup(
@@ -763,13 +763,64 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(tabEmpleadosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(JPInfoEmple, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(tabEmpleadosLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(BInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         panelTab.addTab("Empleados", tabEmpleados);
+
+        TAContenidoScript.setColumns(20);
+        TAContenidoScript.setRows(5);
+        jScrollPane1.setViewportView(TAContenidoScript);
+
+        bEjeScript.setText("Ejecutar");
+        bEjeScript.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEjeScriptActionPerformed(evt);
+            }
+        });
+
+        bAbrirScript.setText("Abrir");
+        bAbrirScript.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAbrirScriptActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout TabScriptsLayout = new javax.swing.GroupLayout(TabScripts);
+        TabScripts.setLayout(TabScriptsLayout);
+        TabScriptsLayout.setHorizontalGroup(
+            TabScriptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TabScriptsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(TabScriptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TabScriptsLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bAbrirScript)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(bEjeScript)))
+                .addContainerGap())
+        );
+
+        TabScriptsLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {bAbrirScript, bEjeScript});
+
+        TabScriptsLayout.setVerticalGroup(
+            TabScriptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TabScriptsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(TabScriptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bEjeScript)
+                    .addComponent(bAbrirScript))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+
+        panelTab.addTab("Scripts", TabScripts);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -810,13 +861,6 @@ public class MainForm extends javax.swing.JFrame {
 
     private void tabDepartamentosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tabDepartamentosComponentShown
 	restaurarDept();
-	/*Statement sentencia = conexion.createStatement();
-	    String sql = "SELECT * FROM departamentos";
-	    resultCompartido = sentencia.executeQuery(sql);
-	    resultCompartido.last();
-	    maxTamResultSet = resultCompartido.getRow();
-	    resultCompartido.first();
-	    mostrarCamposDepartamentos();*/
     }//GEN-LAST:event_tabDepartamentosComponentShown
 
     private void bUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUltimoActionPerformed
@@ -924,70 +968,121 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bEliminarActionPerformed
 
     private void tabEmpleadosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tabEmpleadosComponentShown
-	JPAceptarCancelar.setVisible(Boolean.FALSE);
-	JPModEliminar.setVisible(Boolean.FALSE);
-	limpiarCamposEmple();
+	restaurarEmple();
     }//GEN-LAST:event_tabEmpleadosComponentShown
+
+    private void BVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BVolverActionPerformed
+	restaurarEmple();
+    }//GEN-LAST:event_BVolverActionPerformed
+
+    private void BAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAceptarActionPerformed
+	insertarEmpleado();
+    }//GEN-LAST:event_BAceptarActionPerformed
 
     private void BConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BConsultarActionPerformed
 	if (!TFNumEmp.getText().isEmpty()) {
-	    desactivarCamposEmpleEditable();
-	    mostrarCamposEmpleado();
+	    desactivarCamposEmple(Boolean.TRUE);
+	    if (mostrarCamposEmpleado()) {
+		mostrarConsultarInsertar(Boolean.FALSE);
+		mostrarConsultarInsertar(Boolean.TRUE);
+		BVolver.setVisible(Boolean.TRUE);
+	    }
+
+	    BVolver.setVisible(Boolean.TRUE);
+	    cambiarBotonesConfirmar(Boolean.FALSE);
 	}
     }//GEN-LAST:event_BConsultarActionPerformed
 
     private void BInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BInsertarActionPerformed
-	JPAceptarCancelar.setVisible(Boolean.TRUE);
-	activarCamposEditable();
+	mostrarConsultarInsertar(Boolean.FALSE);
+	mostrarModificarEliminar(Boolean.FALSE);
+	mostrarAceptarCancelar(Boolean.TRUE);
+	desactivarCamposEmple(Boolean.FALSE);
 	mostrarCamposDeptYDir();
     }//GEN-LAST:event_BInsertarActionPerformed
 
-    private void bRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRestaurarActionPerformed
-	limpiarCamposEmple();
-	desactivarCamposEmpleEditable();
-	TFNumEmp.setEditable(Boolean.TRUE);
-	JPAceptarCancelar.setVisible(Boolean.FALSE);
-	JPModEliminar.setVisible(Boolean.FALSE);
+    private void botonEjecutarScriptsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEjecutarScriptsActionPerformed
+	panelTab.setSelectedComponent(TabScripts);
+    }//GEN-LAST:event_botonEjecutarScriptsActionPerformed
 
-    }//GEN-LAST:event_bRestaurarActionPerformed
+    private void bAbrirScriptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAbrirScriptActionPerformed
+	FileReader fr = null;
+	try {
+	    JFileChooser ventanaSeleccion = new JFileChooser(FileSystemView.getFileSystemView());
+	    ventanaSeleccion.showOpenDialog(TabScripts);
+	    fr = new FileReader(ventanaSeleccion.getSelectedFile());
+	    BufferedReader br = new BufferedReader(fr);
+	    String linea = null;
+	    String salto = System.getProperty("line.separator");
+	    StringBuilder sb = new StringBuilder();
+	    while ((linea = br.readLine()) != null) {
+		sb.append(linea);
+		sb.append(salto);
+	    }
 
-    private void BAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAceptarActionPerformed
-	if (TFNumEmp.isEditable()) {
-	    insertarEmpleado();
-	} else {
-	    //modificarEmpleado();
+	    TAContenidoScript.setText(sb.toString());
+	} catch (FileNotFoundException ex) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	} catch (IOException ioe) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ioe);
+	} finally {
+	    try {
+		fr.close();
+	    } catch (IOException ex) {
+		Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	    }
 	}
-    }//GEN-LAST:event_BAceptarActionPerformed
+    }//GEN-LAST:event_bAbrirScriptActionPerformed
+
+    private void bEjeScriptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEjeScriptActionPerformed
+	try {
+	    if (!TAContenidoScript.getText().isEmpty()) {
+		Statement sentencia = conexion.createStatement();
+		String sql = TAContenidoScript.getText();
+		sentencia.executeLargeUpdate(sql);
+		sentencia.close();
+		TAContenidoScript.setText("");
+	    } else {
+		JOptionPane.showMessageDialog(TabScripts, "Selecciona un script antes");
+	    }
+	} catch (SQLException ex) {
+	    JOptionPane.showMessageDialog(TabScripts, ex.getMessage());
+	    //Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	}
+    }//GEN-LAST:event_bEjeScriptActionPerformed
 
     private void insertarEmpleado() {
 	try {
-	    String nuevoEmp_no = TFNumEmp.getText();
-	    String nuevoEmpApellido = TFApeEmp.getText();
-	    String nuevoEmpOficio = TFOfiEmp.getText();
-	    String nuevoEmpSalario = TFSalEmp.getText();
-	    String nuevoEmpComision = TFComEmp.getText();
-	    String nuevoEmpFechaAlt = TFFAltEmp.getText();
-	    String nuevoEmpDept = ((String) CBDeptEmp.getSelectedItem()).substring(0, 2);
 	    String nuevoEmpDir = (String) CBDirEmp.getSelectedItem();
 	    if (nuevoEmpDir.equals("Sin Director")) {
 		nuevoEmpDir = "0";
 	    } else {
 		nuevoEmpDir = nuevoEmpDir.substring(0, 4);
 	    }
+	    String fmod = TFFAltEmp.getText();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    Date fechaMod = sdf.parse(fmod);
+	    java.sql.Date fechaMod2 = java.sql.Date.valueOf(fechaMod.toString());
 	    
 	    String sql = "INSERT INTO empleados VALUES(?,?,?,?,?,?,?,?)";
 	    PreparedStatement sentencia = conexion.prepareStatement(sql);
-	    sentencia.setInt(1, Integer.parseInt(nuevoEmp_no));
-	    sentencia.setString(2, nuevoEmpApellido);
-	    sentencia.setString(3, nuevoEmpOficio);
+	    sentencia.setInt(1, Integer.parseInt(TFNumEmp.getText()));
+	    sentencia.setString(2, TFApeEmp.getText());
+	    sentencia.setString(3, TFOfiEmp.getText());
 	    sentencia.setInt(4, Integer.parseInt(nuevoEmpDir));
-	    sentencia.setDate(5, Date.valueOf(nuevoEmpFechaAlt));
-	    sentencia.setDouble(6, Double.parseDouble(nuevoEmpSalario));
-	    sentencia.setDouble(7, Double.parseDouble(nuevoEmpComision));
-	    sentencia.setInt(8, Integer.parseInt(nuevoEmpDept));
+	    sentencia.setDate(5, java.sql.Date(TFFAltEmp.getText()));
+	    sentencia.setDouble(6, Double.parseDouble(TFSalEmp.getText()));
+	    sentencia.setDouble(7, Double.parseDouble(TFComEmp.getText()));
+	    sentencia.setInt(8, (Integer.parseInt(((String) CBDeptEmp.getSelectedItem()).substring(0, 2))));
 	    int numInsertado = sentencia.executeUpdate();
-
+	    if(numInsertado > 0){
+		JOptionPane.showMessageDialog(tabEmpleados, "Empleado insertado");
+	    }
+	    restaurarEmple();
 	} catch (SQLException ex) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	    JOptionPane.showMessageDialog(tabEmpleados, "Error: No se pudo insertar el empleado");
+	} catch (ParseException ex) {
 	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }
@@ -1018,14 +1113,13 @@ public class MainForm extends javax.swing.JFrame {
 	}
     }
 
-    private void mostrarCamposEmpleado() {
+    private Boolean mostrarCamposEmpleado() {
 	try {
 	    String sql = "SELECT * FROM empleados WHERE emp_no=?";
 	    PreparedStatement pStatement = conexion.prepareStatement(sql);
 	    pStatement.setInt(1, Integer.parseInt(TFNumEmp.getText()));
 	    resultCompartido = pStatement.executeQuery();
 	    if (resultCompartido.next()) {
-		toogleMostrarModificarEliminar();
 		TFApeEmp.setText(resultCompartido.getString("apellido"));
 		TFOfiEmp.setText(resultCompartido.getString("oficio"));
 		TFSalEmp.setText(String.valueOf(resultCompartido.getDouble("salario")));
@@ -1048,26 +1142,51 @@ public class MainForm extends javax.swing.JFrame {
 		    CBDeptEmp.addItem(str_dept);
 		}
 
-		sql = "SELECT emp_no,apellido FROM empleados WHERE dept_no = ?";
+		sql = "SELECT emp_no,apellido FROM empleados WHERE emp_no = ?";
 		pStatement = conexion.prepareStatement(sql);
 		pStatement.setInt(1, idDir);
 		resultCompartido = pStatement.executeQuery();
 		if (resultCompartido.next()) {
-		    if (resultCompartido.getInt(1) != 0) {
-			String str_infoDir = String.valueOf(resultCompartido.getInt(1)) + " | " + resultCompartido.getString(2);
-			CBDirEmp.addItem(str_infoDir);
-		    }
+		    String str_infoDir = String.valueOf(resultCompartido.getInt(1)) + " | " + resultCompartido.getString(2);
+		    CBDirEmp.addItem(str_infoDir);
 		} else {
 		    CBDirEmp.addItem("Sin Director");
 		}
+		return true;
 	    } else {
 		JOptionPane.showMessageDialog(tabEmpleados, "El id no se encuentra en nuestra BBDD");
+		return false;
 	    }
 
 	} catch (SQLException ex) {
 	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 	}
+	return false;
+    }
 
+    private void restaurarEmple() {
+	BVolver.setVisible(Boolean.FALSE);
+	mostrarConsultarInsertar(Boolean.TRUE);
+	mostrarModificarEliminar(Boolean.FALSE);
+	mostrarAceptarCancelar(Boolean.FALSE);
+	limpiarCamposEmple();
+	desactivarCamposEmple(Boolean.TRUE);
+	TFNumEmp.setEditable(Boolean.TRUE);
+    }
+
+    private void mostrarConsultarInsertar(Boolean cambio) {
+	BConsultar.setVisible(cambio);
+	BInsertar.setVisible(cambio);
+    }
+
+    private void mostrarModificarEliminar(Boolean cambio) {
+	BModificar.setVisible(cambio);
+	BEliminar.setVisible(cambio);
+    }
+
+    private void mostrarAceptarCancelar(Boolean cambio) {
+	BAceptar.setVisible(cambio);
+	BCancelar.setVisible(cambio);
     }
 
     private void limpiarCamposEmple() {
@@ -1081,34 +1200,15 @@ public class MainForm extends javax.swing.JFrame {
 	CBDirEmp.removeAllItems();
     }
 
-    private void desactivarCamposEmpleEditable() {
-	TFNumEmp.setEditable(Boolean.FALSE);
-	TFApeEmp.setEditable(Boolean.FALSE);
-	TFOfiEmp.setEditable(Boolean.FALSE);
-	TFSalEmp.setEditable(Boolean.FALSE);
-	TFComEmp.setEditable(Boolean.FALSE);
-	TFFAltEmp.setEditable(Boolean.FALSE);
-	CBDeptEmp.setEditable(Boolean.FALSE);
-	CBDirEmp.setEditable(Boolean.FALSE);
-    }
-
-    private void activarCamposEditable() {
-	TFApeEmp.setEditable(Boolean.TRUE);
-	TFOfiEmp.setEditable(Boolean.TRUE);
-	TFSalEmp.setEditable(Boolean.TRUE);
-	TFComEmp.setEditable(Boolean.TRUE);
-	TFFAltEmp.setEditable(Boolean.TRUE);
-	CBDeptEmp.setEditable(Boolean.TRUE);
-	CBDirEmp.setEditable(Boolean.TRUE);
-
-    }
-
-    private void toogleMostrarModificarEliminar() {
-	if (JPModEliminar.isVisible()) {
-	    JPModEliminar.setVisible(Boolean.FALSE);
-	} else {
-	    JPModEliminar.setVisible(Boolean.TRUE);
-	}
+    private void desactivarCamposEmple(Boolean desactivar) {
+	TFNumEmp.setEditable(!desactivar);
+	TFApeEmp.setEditable(!desactivar);
+	TFOfiEmp.setEditable(!desactivar);
+	TFSalEmp.setEditable(!desactivar);
+	TFComEmp.setEditable(!desactivar);
+	TFFAltEmp.setEditable(!desactivar);
+	CBDeptEmp.setEditable(!desactivar);
+	CBDirEmp.setEditable(!desactivar);
     }
 
     private void mostrarCamposDepartamentos() {
@@ -1134,7 +1234,7 @@ public class MainForm extends javax.swing.JFrame {
     private void crearConexionBD() {
 	try {
 	    Class.forName("com.mysql.cj.jdbc.Driver");
-	    conexion = DriverManager.getConnection("jdbc:mysql://localhost/MySQLDB.db?useSSL=false", "root", "sephir0th");
+	    conexion = DriverManager.getConnection("jdbc:mysql://localhost/MySQLDB.db?useSSL=false&allowMultiQueries=true", "root", "sephir0th");
 
 	} catch (ClassNotFoundException | SQLException ex) {
 	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
@@ -1205,13 +1305,13 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton BInicio;
     private javax.swing.JButton BInsertar;
     private javax.swing.JButton BModificar;
+    private javax.swing.JButton BVolver;
     private javax.swing.JComboBox<String> CBDeptEmp;
     private javax.swing.JComboBox<String> CBDirEmp;
-    private javax.swing.JPanel JPAceptarCancelar;
     private javax.swing.JPanel JPConIns;
     private javax.swing.JPanel JPInfoEmple;
-    private javax.swing.JPanel JPModEliminar;
     private javax.swing.JLabel LabelMainHead;
+    private javax.swing.JTextArea TAContenidoScript;
     private javax.swing.JTextField TFApeEmp;
     private javax.swing.JTextField TFComEmp;
     private javax.swing.JFormattedTextField TFFAltEmp;
@@ -1221,16 +1321,22 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JTextField TFNumEmp;
     private javax.swing.JTextField TFOfiEmp;
     private javax.swing.JTextField TFSalEmp;
+    private javax.swing.JPanel TabScripts;
+    private javax.swing.JButton bAbrirScript;
     private javax.swing.JButton bAnterior;
+    private javax.swing.JButton bBorrarTablas;
+    private javax.swing.JButton bCrearTablas;
+    private javax.swing.JButton bEjeScript;
     private javax.swing.JButton bEliminar;
     private javax.swing.JButton bInsertar;
+    private javax.swing.JButton bInsertarDatos;
     private javax.swing.JButton bModificar;
     private javax.swing.JButton bPrimero;
-    private javax.swing.JButton bRestaurar;
     private javax.swing.JButton bSiguiente;
     private javax.swing.JButton bUltimo;
     private javax.swing.JButton botonAceptar;
     private javax.swing.JButton botonCancelar;
+    private javax.swing.JButton botonEjecutarScripts;
     private javax.swing.JButton botonGesDepart;
     private javax.swing.JButton botonGesEmple;
     private javax.swing.JPanel controlesVisual;
@@ -1249,6 +1355,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel labelIdDept;
     private javax.swing.JLabel labelLocDept;
     private javax.swing.JLabel labelNomDept;
