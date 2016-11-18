@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.util.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,6 +26,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileSystemView;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -60,6 +62,7 @@ public class MainForm extends javax.swing.JFrame {
         bCrearTablas = new javax.swing.JButton();
         bBorrarTablas = new javax.swing.JButton();
         bInsertarDatos = new javax.swing.JButton();
+        bmostrarInfoDB = new javax.swing.JButton();
         LabelMainHead = new javax.swing.JLabel();
         tabDepartamentos = new javax.swing.JPanel();
         etiquetaSeccion = new javax.swing.JLabel();
@@ -119,6 +122,17 @@ public class MainForm extends javax.swing.JFrame {
         TAContenidoScript = new javax.swing.JTextArea();
         bEjeScript = new javax.swing.JButton();
         bAbrirScript = new javax.swing.JButton();
+        tabInformacion = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaInfoBBDD = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablaInfoTablaBBDD = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaInfoTablaDeptBBDD = new javax.swing.JTable();
+        labelDeptClavePrimaria = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -159,7 +173,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(botonGesDepart)
                 .addGap(45, 45, 45)
                 .addComponent(botonGesEmple)
-                .addContainerGap(138, Short.MAX_VALUE))
+                .addContainerGap(158, Short.MAX_VALUE))
         );
 
         panelMantenimiento.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder()), "Mantenimiento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
@@ -178,6 +192,13 @@ public class MainForm extends javax.swing.JFrame {
 
         bInsertarDatos.setText("Insertar Datos");
 
+        bmostrarInfoDB.setText("Ver informacion BBDD");
+        bmostrarInfoDB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bmostrarInfoDBActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelMantenimientoLayout = new javax.swing.GroupLayout(panelMantenimiento);
         panelMantenimiento.setLayout(panelMantenimientoLayout);
         panelMantenimientoLayout.setHorizontalGroup(
@@ -188,7 +209,8 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(botonEjecutarScripts, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
                     .addComponent(bCrearTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bBorrarTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bInsertarDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bInsertarDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bmostrarInfoDB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelMantenimientoLayout.setVerticalGroup(
@@ -200,6 +222,8 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(bBorrarTablas)
                 .addGap(18, 18, 18)
                 .addComponent(bInsertarDatos)
+                .addGap(49, 49, 49)
+                .addComponent(bmostrarInfoDB)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(botonEjecutarScripts)
                 .addContainerGap())
@@ -229,7 +253,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tabPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelGestionDiaria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE))
+                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -729,7 +753,7 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(JPConIns, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(JPConIns, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 147, Short.MAX_VALUE)
                     .addComponent(BVolver, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -817,10 +841,103 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(TabScriptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bEjeScript)
                     .addComponent(bAbrirScript))
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         panelTab.addTab("Scripts", TabScripts);
+
+        tabInformacion.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                tabInformacionComponentShown(evt);
+            }
+        });
+
+        tablaInfoBBDD.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Driver", "URL", "Usuario"
+            }
+        ));
+        jScrollPane2.setViewportView(tablaInfoBBDD);
+
+        jLabel6.setText("Informacion sobre la base de datos");
+
+        tablaInfoTablaBBDD.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null}
+            },
+            new String [] {
+                "Catalogo", "Esquema", "Tabla", "Tipo"
+            }
+        ));
+        jScrollPane3.setViewportView(tablaInfoTablaBBDD);
+
+        jLabel7.setText("Informacion sobre las tablas de la base de datos");
+
+        jLabel8.setText("Informacion tabla Departamentos");
+
+        tablaInfoTablaDeptBBDD.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Nombre", "Tipo", "Tamaño", "¿Puede ser null?"
+            }
+        ));
+        jScrollPane4.setViewportView(tablaInfoTablaDeptBBDD);
+
+        labelDeptClavePrimaria.setText("Clave Primaria: ");
+
+        javax.swing.GroupLayout tabInformacionLayout = new javax.swing.GroupLayout(tabInformacion);
+        tabInformacion.setLayout(tabInformacionLayout);
+        tabInformacionLayout.setHorizontalGroup(
+            tabInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabInformacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(tabInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, tabInformacionLayout.createSequentialGroup()
+                        .addGroup(tabInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addGroup(tabInformacionLayout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(labelDeptClavePrimaria)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        tabInformacionLayout.setVerticalGroup(
+            tabInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabInformacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(tabInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(labelDeptClavePrimaria))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
+
+        panelTab.addTab("Informacion BBDD", tabInformacion);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -830,7 +947,7 @@ public class MainForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelTab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelTab, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
         );
 
         getAccessibleContext().setAccessibleName("tab1");
@@ -1050,6 +1167,68 @@ public class MainForm extends javax.swing.JFrame {
 	    //Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }//GEN-LAST:event_bEjeScriptActionPerformed
+
+    private void tabInformacionComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tabInformacionComponentShown
+        try{
+	    tablaInfoBBDD.setEnabled(Boolean.FALSE);
+	    tablaInfoBBDD.setAutoscrolls(Boolean.FALSE);
+	    DatabaseMetaData dbmd = conexion.getMetaData();
+	    tablaInfoBBDD.setValueAt(dbmd.getDatabaseProductName(), 0, 0);
+	    tablaInfoBBDD.setValueAt(dbmd.getDriverName(), 0, 1);
+	    tablaInfoBBDD.setValueAt(dbmd.getURL(), 0, 2);
+	    tablaInfoBBDD.setValueAt(dbmd.getUserName(), 0, 3);
+	    
+	    ResultSet result = dbmd.getTables("MySQLDB.db", null, "%", null);
+	    result.last();
+	    int numeroFilas = result.getRow();
+	    result.beforeFirst();
+	    int filas = 0, propiedad = 1;
+	    DefaultTableModel dftm = (DefaultTableModel) tablaInfoTablaBBDD.getModel();
+	    dftm.setNumRows(numeroFilas);
+	    tablaInfoTablaBBDD.setModel(dftm);
+	    while(result.next()){
+		for(propiedad = 1; propiedad < 5; propiedad++){
+		    tablaInfoTablaBBDD.setValueAt(result.getString(propiedad), filas, propiedad-1);
+		}
+		filas++;
+	    }
+	    
+	    result = dbmd.getColumns(null, "MySQLDB.db", "departamentos", "%");
+	    result.last();
+	    numeroFilas = result.getRow();
+	    result.beforeFirst();
+	    dftm = (DefaultTableModel) tablaInfoTablaDeptBBDD.getModel();
+	    dftm.setNumRows(numeroFilas);
+	    tablaInfoTablaDeptBBDD.setModel(dftm);
+	    filas = 0;
+	    while(result.next()){
+		tablaInfoTablaDeptBBDD.setValueAt(result.getString("COLUMN_NAME"), filas, 0);
+		tablaInfoTablaDeptBBDD.setValueAt(result.getString("TYPE_NAME"), filas, 1);
+		tablaInfoTablaDeptBBDD.setValueAt(result.getString("COLUMN_SIZE"), filas, 2);
+		tablaInfoTablaDeptBBDD.setValueAt(result.getString("IS_NULLABLE"), filas, 3);
+		filas++;
+	    }
+	    String pkDep = labelDeptClavePrimaria.getText()+"{ ";
+	    result = dbmd.getPrimaryKeys("MySQLDB.db", "MySQLDB.db", "departamentos");
+	    String separador = " ,";
+	    
+	    while(result.next()){
+		
+		if(result.isLast()){
+		    pkDep = pkDep + result.getString("COLUMN_NAME")+" }";
+		}else{
+		    pkDep = pkDep + result.getString("COLUMN_NAME")+separador;
+		}
+	    }
+	    labelDeptClavePrimaria.setText(pkDep);
+	}catch(SQLException sqle){
+	    JOptionPane.showMessageDialog(panelTab, "Error SQL: "+ sqle.getMessage());
+	}
+    }//GEN-LAST:event_tabInformacionComponentShown
+
+    private void bmostrarInfoDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmostrarInfoDBActionPerformed
+        panelTab.setSelectedComponent(tabInformacion);
+    }//GEN-LAST:event_bmostrarInfoDBActionPerformed
 
     private void insertarEmpleado() {
 	try {
@@ -1334,6 +1513,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton bPrimero;
     private javax.swing.JButton bSiguiente;
     private javax.swing.JButton bUltimo;
+    private javax.swing.JButton bmostrarInfoDB;
     private javax.swing.JButton botonAceptar;
     private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonEjecutarScripts;
@@ -1350,12 +1530,19 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JLabel labelDeptClavePrimaria;
     private javax.swing.JLabel labelIdDept;
     private javax.swing.JLabel labelLocDept;
     private javax.swing.JLabel labelNomDept;
@@ -1366,7 +1553,11 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JTabbedPane panelTab;
     private javax.swing.JPanel tabDepartamentos;
     private javax.swing.JPanel tabEmpleados;
+    private javax.swing.JPanel tabInformacion;
     private javax.swing.JPanel tabPrincipal;
+    private javax.swing.JTable tablaInfoBBDD;
+    private javax.swing.JTable tablaInfoTablaBBDD;
+    private javax.swing.JTable tablaInfoTablaDeptBBDD;
     // End of variables declaration//GEN-END:variables
 
     // Mis atributos
