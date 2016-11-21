@@ -133,6 +133,7 @@ public class MainForm extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         tablaInfoTablaDeptBBDD = new javax.swing.JTable();
         labelDeptClavePrimaria = new javax.swing.JLabel();
+        labelFKDept = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -187,10 +188,25 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         bCrearTablas.setText("Crear Tablas");
+        bCrearTablas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCrearTablasActionPerformed(evt);
+            }
+        });
 
         bBorrarTablas.setText("Borrar Tablas");
+        bBorrarTablas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bBorrarTablasActionPerformed(evt);
+            }
+        });
 
         bInsertarDatos.setText("Insertar Datos");
+        bInsertarDatos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bInsertarDatosActionPerformed(evt);
+            }
+        });
 
         bmostrarInfoDB.setText("Ver informacion BBDD");
         bmostrarInfoDB.addActionListener(new java.awt.event.ActionListener() {
@@ -691,6 +707,11 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         BModificar.setText("Modificar");
+        BModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BModificarActionPerformed(evt);
+            }
+        });
 
         BEliminar.setText("Eliminar");
 
@@ -896,25 +917,31 @@ public class MainForm extends javax.swing.JFrame {
 
         labelDeptClavePrimaria.setText("Clave Primaria: ");
 
+        labelFKDept.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        labelFKDept.setText("Claves ajenas de la tabla Departamentos: ");
+
         javax.swing.GroupLayout tabInformacionLayout = new javax.swing.GroupLayout(tabInformacion);
         tabInformacion.setLayout(tabInformacionLayout);
         tabInformacionLayout.setHorizontalGroup(
             tabInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabInformacionLayout.createSequentialGroup()
+            .addGroup(tabInformacionLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(tabInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, tabInformacionLayout.createSequentialGroup()
+                .addGroup(tabInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane3)
+                    .addGroup(tabInformacionLayout.createSequentialGroup()
                         .addGroup(tabInformacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel6)
                             .addComponent(jLabel7)
                             .addGroup(tabInformacionLayout.createSequentialGroup()
                                 .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(29, 29, 29)
                                 .addComponent(labelDeptClavePrimaria)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabInformacionLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(labelFKDept)))
                 .addContainerGap())
         );
         tabInformacionLayout.setVerticalGroup(
@@ -923,8 +950,8 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -933,8 +960,10 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(labelDeptClavePrimaria))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(labelFKDept)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelTab.addTab("Informacion BBDD", tabInformacion);
@@ -1101,12 +1130,11 @@ public class MainForm extends javax.swing.JFrame {
 	    desactivarCamposEmple(Boolean.TRUE);
 	    if (mostrarCamposEmpleado()) {
 		mostrarConsultarInsertar(Boolean.FALSE);
-		mostrarConsultarInsertar(Boolean.TRUE);
+		mostrarModificarEliminar(Boolean.TRUE);
 		BVolver.setVisible(Boolean.TRUE);
 	    }
 
 	    BVolver.setVisible(Boolean.TRUE);
-	    cambiarBotonesConfirmar(Boolean.FALSE);
 	}
     }//GEN-LAST:event_BConsultarActionPerformed
 
@@ -1169,7 +1197,7 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bEjeScriptActionPerformed
 
     private void tabInformacionComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tabInformacionComponentShown
-        try{
+	try {
 	    tablaInfoBBDD.setEnabled(Boolean.FALSE);
 	    tablaInfoBBDD.setAutoscrolls(Boolean.FALSE);
 	    DatabaseMetaData dbmd = conexion.getMetaData();
@@ -1177,7 +1205,7 @@ public class MainForm extends javax.swing.JFrame {
 	    tablaInfoBBDD.setValueAt(dbmd.getDriverName(), 0, 1);
 	    tablaInfoBBDD.setValueAt(dbmd.getURL(), 0, 2);
 	    tablaInfoBBDD.setValueAt(dbmd.getUserName(), 0, 3);
-	    
+
 	    ResultSet result = dbmd.getTables("MySQLDB.db", null, "%", null);
 	    result.last();
 	    int numeroFilas = result.getRow();
@@ -1186,13 +1214,13 @@ public class MainForm extends javax.swing.JFrame {
 	    DefaultTableModel dftm = (DefaultTableModel) tablaInfoTablaBBDD.getModel();
 	    dftm.setNumRows(numeroFilas);
 	    tablaInfoTablaBBDD.setModel(dftm);
-	    while(result.next()){
-		for(propiedad = 1; propiedad < 5; propiedad++){
-		    tablaInfoTablaBBDD.setValueAt(result.getString(propiedad), filas, propiedad-1);
+	    while (result.next()) {
+		for (propiedad = 1; propiedad < 5; propiedad++) {
+		    tablaInfoTablaBBDD.setValueAt(result.getString(propiedad), filas, propiedad - 1);
 		}
 		filas++;
 	    }
-	    
+
 	    result = dbmd.getColumns(null, "MySQLDB.db", "departamentos", "%");
 	    result.last();
 	    numeroFilas = result.getRow();
@@ -1201,35 +1229,167 @@ public class MainForm extends javax.swing.JFrame {
 	    dftm.setNumRows(numeroFilas);
 	    tablaInfoTablaDeptBBDD.setModel(dftm);
 	    filas = 0;
-	    while(result.next()){
+	    while (result.next()) {
 		tablaInfoTablaDeptBBDD.setValueAt(result.getString("COLUMN_NAME"), filas, 0);
 		tablaInfoTablaDeptBBDD.setValueAt(result.getString("TYPE_NAME"), filas, 1);
 		tablaInfoTablaDeptBBDD.setValueAt(result.getString("COLUMN_SIZE"), filas, 2);
 		tablaInfoTablaDeptBBDD.setValueAt(result.getString("IS_NULLABLE"), filas, 3);
 		filas++;
 	    }
-	    String pkDep = labelDeptClavePrimaria.getText()+"{ ";
+	    String pkDep = labelDeptClavePrimaria.getText() + "{ ";
 	    result = dbmd.getPrimaryKeys("MySQLDB.db", "MySQLDB.db", "departamentos");
 	    String separador = " ,";
-	    
-	    while(result.next()){
-		
-		if(result.isLast()){
-		    pkDep = pkDep + result.getString("COLUMN_NAME")+" }";
-		}else{
-		    pkDep = pkDep + result.getString("COLUMN_NAME")+separador;
+
+	    while (result.next()) {
+
+		if (result.isLast()) {
+		    pkDep = pkDep + result.getString("COLUMN_NAME") + " }";
+		} else {
+		    pkDep = pkDep + result.getString("COLUMN_NAME") + separador;
 		}
 	    }
 	    labelDeptClavePrimaria.setText(pkDep);
-	}catch(SQLException sqle){
-	    JOptionPane.showMessageDialog(panelTab, "Error SQL: "+ sqle.getMessage());
+
+	    result = dbmd.getExportedKeys("MySQLDB.db", "MySQLDB.db", "departamentos");
+	    StringBuilder sb = new StringBuilder();
+
+	    while (result.next()) {
+		String fk_name = result.getString("FKCOLUMN_NAME");
+		String pk_name = result.getString("PKCOLUMN_NAME");
+		String pk_tableName = result.getString("PKTABLE_NAME");
+		String fk_tableName = result.getString("FKTABLE_NAME");
+
+		sb.append("La tabla " + fk_tableName + " tiene un campo " + fk_name + " que referencia al campo " + pk_name + " de la tabla " + pk_tableName + ".");
+		sb.append(System.getProperty("line.separator"));
+	    }
+
+	    labelFKDept.setText(sb.toString());
+
+	} catch (SQLException sqle) {
+	    JOptionPane.showMessageDialog(panelTab, "Error SQL: " + sqle.getMessage());
 	}
     }//GEN-LAST:event_tabInformacionComponentShown
 
     private void bmostrarInfoDBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmostrarInfoDBActionPerformed
-        panelTab.setSelectedComponent(tabInformacion);
+	panelTab.setSelectedComponent(tabInformacion);
     }//GEN-LAST:event_bmostrarInfoDBActionPerformed
 
+    private void bCrearTablasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCrearTablasActionPerformed
+	if (JOptionPane.showConfirmDialog(tabPrincipal, "¿Desea crear las tablas de la BBDD?") == 0) {
+	    try {
+		Statement sentencia = conexion.createStatement();
+		String sql = "CREATE TABLE departamentos("
+			+ "dept_no TINYINT(2) NOT NULL PRIMARY KEY,"
+			+ "dnombre VARCHAR(15),"
+			+ "loc VARCHAR(15)"
+			+ ")";
+		sentencia.executeUpdate(sql);
+		JOptionPane.showMessageDialog(tabPrincipal, "Tabla departamentos creada correctamente");
+		sql = "CREATE TABLE empleados("
+			+ "emp_no SMALLINT(4) NOT NULL PRIMARY KEY,"
+			+ "apellido VARCHAR(10),"
+			+ "oficio VARCHAR(10),"
+			+ "dir SMALLINT,"
+			+ "fecha_alt DATE,"
+			+ "salario FLOAT, "
+			+ "comision FLOAT,"
+			+ "dept_no TINYINT(2) NOT NULL,"
+			+ "CONSTRAINT FK_DEP FOREIGN KEY (dept_no) REFERENCES departamentos (dept_no)"
+			+ ")";
+		sentencia.executeUpdate(sql);
+		JOptionPane.showMessageDialog(tabPrincipal, "Tabla empleados creada correctamente");
+	    } catch (SQLException ex) {
+		Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	}
+    }//GEN-LAST:event_bCrearTablasActionPerformed
+
+    private void bBorrarTablasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBorrarTablasActionPerformed
+	if (JOptionPane.showConfirmDialog(tabPrincipal, "¿Desea borrar las tablas de la BBDD?") == 0) {
+	    try {
+		Statement sentencia = conexion.createStatement();
+		String sql = "DROP TABLE IF EXISTS empleados, departamentos";
+		sentencia.executeUpdate(sql);
+		JOptionPane.showMessageDialog(tabPrincipal, "Tablas borradas correctamente");
+	    } catch (SQLException ex) {
+		Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	}
+    }//GEN-LAST:event_bBorrarTablasActionPerformed
+
+    private void bInsertarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertarDatosActionPerformed
+	if (JOptionPane.showConfirmDialog(tabPrincipal, "¿Desea inicializar las tablas de la BBDD?") == 0) {
+	    try {
+		Statement sentencia = conexion.createStatement();
+		int updates = 0;
+		String sql = "INSERT INTO departamentos VALUES (10,'CONTABILIDAD','SEVILLA')";
+		updates += sentencia.executeUpdate(sql);
+		sql = "INSERT INTO departamentos VALUES (20,'INVESTIGACIÓN','MADRID')";
+		updates += sentencia.executeUpdate(sql);
+		sql = "INSERT INTO departamentos VALUES (30,'VENTAS','BARCELONA')";
+		updates += sentencia.executeUpdate(sql);
+		sql = "INSERT INTO departamentos VALUES (40,'PRODUCCIÓN','BILBAO')";
+		updates += sentencia.executeUpdate(sql);
+		sql = "INSERT INTO empleados VALUES (7369,'SANCHEZ','EMPLEADO',7499,'1990-12-17',1040,NULL,20)";
+		updates += sentencia.executeUpdate(sql);
+		sql = "INSERT INTO empleados VALUES (7499,'ARROYO','VENDEDOR',7369,'1990-02-20',1500,390,30)";
+		updates += sentencia.executeUpdate(sql);
+		sql = "INSERT INTO empleados VALUES (7521,'SALA','VENDEDOR',7499,'1991-02-22',1625,650,30)";
+		updates += sentencia.executeUpdate(sql);
+		if (updates == 7) {
+		    JOptionPane.showMessageDialog(tabPrincipal, "Tablas inicializadas correctamente");
+		}
+	    } catch (SQLException ex) {
+		Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	}
+
+    }//GEN-LAST:event_bInsertarDatosActionPerformed
+
+    private void BModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BModificarActionPerformed
+        mostrarModificarEliminar(Boolean.FALSE);
+	mostrarAceptarCancelar(Boolean.TRUE);
+	
+	modificarEmpleado();
+    }//GEN-LAST:event_BModificarActionPerformed
+
+    private void modificarEmpleado() {
+	try {
+	    String nuevoEmpDir = (String) CBDirEmp.getSelectedItem();
+	    if (nuevoEmpDir.equals("Sin Director")) {
+		nuevoEmpDir = "0";
+	    } else {
+		nuevoEmpDir = nuevoEmpDir.substring(0, 4);
+	    }
+	    String fmod = TFFAltEmp.getText();
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    Date fechaMod = sdf.parse(fmod);
+	    java.sql.Date fechaMod2 = java.sql.Date.valueOf(fechaMod.toString());
+
+	    String sql = "UPDATE TABLE empleados VALUES(?,?,?,?,?,?,?,?) WHERE emp_no = ?";
+	    PreparedStatement sentencia = conexion.prepareStatement(sql);
+	    sentencia.setInt(1, Integer.parseInt(TFNumEmp.getText()));
+	    sentencia.setString(2, TFApeEmp.getText());
+	    sentencia.setString(3, TFOfiEmp.getText());
+	    sentencia.setInt(4, Integer.parseInt(nuevoEmpDir));
+	    sentencia.setDate(5, java.sql.Date(TFFAltEmp.getText()));
+	    sentencia.setDouble(6, Double.parseDouble(TFSalEmp.getText()));
+	    sentencia.setDouble(7, Double.parseDouble(TFComEmp.getText()));
+	    sentencia.setInt(8, (Integer.parseInt(((String) CBDeptEmp.getSelectedItem()).substring(0, 2))));
+	    sentencia.setInt(1, Integer.parseInt(TFNumEmp.getText()));
+	    int numInsertado = sentencia.executeUpdate();
+	    if (numInsertado > 0) {
+		JOptionPane.showMessageDialog(tabEmpleados, "Empleado modificado");
+	    }
+	    restaurarEmple();
+	} catch (SQLException ex) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	    JOptionPane.showMessageDialog(tabEmpleados, "Error: No se pudo insertar el empleado");
+	} catch (ParseException ex) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	}
+    }
+    
     private void insertarEmpleado() {
 	try {
 	    String nuevoEmpDir = (String) CBDirEmp.getSelectedItem();
@@ -1242,7 +1402,7 @@ public class MainForm extends javax.swing.JFrame {
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	    Date fechaMod = sdf.parse(fmod);
 	    java.sql.Date fechaMod2 = java.sql.Date.valueOf(fechaMod.toString());
-	    
+
 	    String sql = "INSERT INTO empleados VALUES(?,?,?,?,?,?,?,?)";
 	    PreparedStatement sentencia = conexion.prepareStatement(sql);
 	    sentencia.setInt(1, Integer.parseInt(TFNumEmp.getText()));
@@ -1254,7 +1414,7 @@ public class MainForm extends javax.swing.JFrame {
 	    sentencia.setDouble(7, Double.parseDouble(TFComEmp.getText()));
 	    sentencia.setInt(8, (Integer.parseInt(((String) CBDeptEmp.getSelectedItem()).substring(0, 2))));
 	    int numInsertado = sentencia.executeUpdate();
-	    if(numInsertado > 0){
+	    if (numInsertado > 0) {
 		JOptionPane.showMessageDialog(tabEmpleados, "Empleado insertado");
 	    }
 	    restaurarEmple();
@@ -1543,6 +1703,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel labelDeptClavePrimaria;
+    private javax.swing.JLabel labelFKDept;
     private javax.swing.JLabel labelIdDept;
     private javax.swing.JLabel labelLocDept;
     private javax.swing.JLabel labelNomDept;
