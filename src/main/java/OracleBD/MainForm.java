@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.util.Date;
@@ -18,15 +19,27 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -52,6 +65,7 @@ public class MainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        GrupoRadioButtonInforme = new javax.swing.ButtonGroup();
         panelTab = new javax.swing.JTabbedPane();
         tabPrincipal = new javax.swing.JPanel();
         panelGestionDiaria = new javax.swing.JPanel();
@@ -63,6 +77,8 @@ public class MainForm extends javax.swing.JFrame {
         bBorrarTablas = new javax.swing.JButton();
         bInsertarDatos = new javax.swing.JButton();
         bmostrarInfoDB = new javax.swing.JButton();
+        bEjecutarPocedimientos = new javax.swing.JButton();
+        bMostrarInforme = new javax.swing.JButton();
         LabelMainHead = new javax.swing.JLabel();
         tabDepartamentos = new javax.swing.JPanel();
         etiquetaSeccion = new javax.swing.JLabel();
@@ -134,10 +150,24 @@ public class MainForm extends javax.swing.JFrame {
         tablaInfoTablaDeptBBDD = new javax.swing.JTable();
         labelDeptClavePrimaria = new javax.swing.JLabel();
         labelFKDept = new javax.swing.JLabel();
+        panelProcedimientos = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        listProc = new javax.swing.JList<>();
+        bEjeProc = new javax.swing.JButton();
+        panelInformes = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        bAbrirInforme = new javax.swing.JToggleButton();
+        labelRuta = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        rbPDF = new javax.swing.JRadioButton();
+        rbHTML = new javax.swing.JRadioButton();
+        rbXML = new javax.swing.JRadioButton();
+        bGenerarInforme = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
 
+        panelTab.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         panelTab.setPreferredSize(new java.awt.Dimension(611, 362));
 
         panelGestionDiaria.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder()), "Gestion Diaria", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
@@ -174,7 +204,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(botonGesDepart)
                 .addGap(45, 45, 45)
                 .addComponent(botonGesEmple)
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelMantenimiento.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder()), "Mantenimiento", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
@@ -215,6 +245,20 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
+        bEjecutarPocedimientos.setText("Ejecutar procedimientos");
+        bEjecutarPocedimientos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEjecutarPocedimientosActionPerformed(evt);
+            }
+        });
+
+        bMostrarInforme.setText("Mostrar informes");
+        bMostrarInforme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bMostrarInformeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelMantenimientoLayout = new javax.swing.GroupLayout(panelMantenimiento);
         panelMantenimiento.setLayout(panelMantenimientoLayout);
         panelMantenimientoLayout.setHorizontalGroup(
@@ -226,7 +270,9 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(bCrearTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bBorrarTablas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bInsertarDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bmostrarInfoDB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(bmostrarInfoDB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bEjecutarPocedimientos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bMostrarInforme, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelMantenimientoLayout.setVerticalGroup(
@@ -238,11 +284,15 @@ public class MainForm extends javax.swing.JFrame {
                 .addComponent(bBorrarTablas)
                 .addGap(18, 18, 18)
                 .addComponent(bInsertarDatos)
-                .addGap(49, 49, 49)
+                .addGap(30, 30, 30)
+                .addComponent(bMostrarInforme)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bmostrarInfoDB)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonEjecutarScripts)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(bEjecutarPocedimientos)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         LabelMainHead.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -269,7 +319,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tabPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelGestionDiaria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE))
+                    .addComponent(panelMantenimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -862,7 +912,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(TabScriptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bEjeScript)
                     .addComponent(bAbrirScript))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         panelTab.addTab("Scripts", TabScripts);
@@ -968,6 +1018,151 @@ public class MainForm extends javax.swing.JFrame {
 
         panelTab.addTab("Informacion BBDD", tabInformacion);
 
+        panelProcedimientos.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                panelProcedimientosComponentShown(evt);
+            }
+        });
+
+        listProc.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Procedimientos almacenados en la base de datos"));
+        jScrollPane5.setViewportView(listProc);
+
+        bEjeProc.setText("Ejecutar procedimiento");
+        bEjeProc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bEjeProcActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelProcedimientosLayout = new javax.swing.GroupLayout(panelProcedimientos);
+        panelProcedimientos.setLayout(panelProcedimientosLayout);
+        panelProcedimientosLayout.setHorizontalGroup(
+            panelProcedimientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelProcedimientosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelProcedimientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 582, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelProcedimientosLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bEjeProc)))
+                .addContainerGap())
+        );
+        panelProcedimientosLayout.setVerticalGroup(
+            panelProcedimientosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelProcedimientosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bEjeProc)
+                .addContainerGap(15, Short.MAX_VALUE))
+        );
+
+        panelTab.addTab("Procedimientos", panelProcedimientos);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Selecciona la plantilla"));
+
+        bAbrirInforme.setText("Abrir Informe");
+        bAbrirInforme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bAbrirInformeActionPerformed(evt);
+            }
+        });
+
+        labelRuta.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelRuta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(bAbrirInforme)
+                        .addGap(0, 236, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(bAbrirInforme)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(labelRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de archivo"));
+
+        GrupoRadioButtonInforme.add(rbPDF);
+        rbPDF.setText("PDF");
+
+        GrupoRadioButtonInforme.add(rbHTML);
+        rbHTML.setText("HTML");
+
+        GrupoRadioButtonInforme.add(rbXML);
+        rbXML.setText("XML");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rbPDF)
+                    .addComponent(rbHTML)
+                    .addComponent(rbXML))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(rbPDF)
+                .addGap(18, 18, 18)
+                .addComponent(rbHTML)
+                .addGap(18, 18, 18)
+                .addComponent(rbXML)
+                .addContainerGap(138, Short.MAX_VALUE))
+        );
+
+        bGenerarInforme.setText("Generar Informe");
+        bGenerarInforme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bGenerarInformeActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelInformesLayout = new javax.swing.GroupLayout(panelInformes);
+        panelInformes.setLayout(panelInformesLayout);
+        panelInformesLayout.setHorizontalGroup(
+            panelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInformesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bGenerarInforme, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelInformesLayout.setVerticalGroup(
+            panelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInformesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelInformesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelInformesLayout.createSequentialGroup()
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addComponent(bGenerarInforme)))
+                .addContainerGap())
+        );
+
+        panelTab.addTab("Informes", panelInformes);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -976,7 +1171,7 @@ public class MainForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelTab, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+            .addComponent(panelTab, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
         );
 
         getAccessibleContext().setAccessibleName("tab1");
@@ -1347,11 +1542,143 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_bInsertarDatosActionPerformed
 
     private void BModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BModificarActionPerformed
-        mostrarModificarEliminar(Boolean.FALSE);
+	mostrarModificarEliminar(Boolean.FALSE);
 	mostrarAceptarCancelar(Boolean.TRUE);
-	
+
 	modificarEmpleado();
     }//GEN-LAST:event_BModificarActionPerformed
+
+    private void bEjecutarPocedimientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEjecutarPocedimientosActionPerformed
+	panelTab.setSelectedComponent(panelProcedimientos);
+    }//GEN-LAST:event_bEjecutarPocedimientosActionPerformed
+
+    private void panelProcedimientosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelProcedimientosComponentShown
+	try {
+	    DatabaseMetaData dbmd = conexion.getMetaData();
+	    ResultSet result = dbmd.getProcedures("MySQLDB.db", "MySQLDB.db", "%");
+
+	    result.last();
+	    int rows = result.getRow();
+	    result.beforeFirst();
+	    DefaultListModel dflm = new DefaultListModel();
+
+	    while (result.next()) {
+		String proc_name = result.getString("PROCEDURE_NAME");
+		String proc_type = result.getString("PROCEDURE_TYPE");
+		StringBuilder sb_contructorProcedimiento = new StringBuilder();
+		ResultSet result_col_proc = dbmd.getProcedureColumns("MySQLDB.db", "MySQLDB.db", proc_name, "%");
+		sb_contructorProcedimiento.append(proc_type);
+		sb_contructorProcedimiento.append(" " + proc_name);
+
+		while (result_col_proc.next()) {
+		    sb_contructorProcedimiento.append(" " + result_col_proc.getString("COLUMN_NAME"));
+		    if (result_col_proc.getShort("COLUMN_TYPE") == 5) {
+			sb_contructorProcedimiento.append(" Devuelve: " + result_col_proc.getString("TYPE_NAME"));
+		    } else if (result_col_proc.getShort("COLUMN_TYPE") == 1) {
+			sb_contructorProcedimiento.append(" Parametro de entrada: " + result_col_proc.getString("TYPE_NAME"));
+		    } else if (result_col_proc.getShort("COLUMN_TYPE") == 4) {
+			sb_contructorProcedimiento.append(" Parametro de salida: " + result_col_proc.getString("TYPE_NAME"));
+		    } else if (result_col_proc.getShort("COLUMN_TYPE") == 2) {
+			sb_contructorProcedimiento.append(" Parametro de entrada/salida: " + result_col_proc.getString("TYPE_NAME"));
+		    }
+		}
+		dflm.addElement(sb_contructorProcedimiento.toString());
+	    }
+	    listProc.setModel(dflm);
+	} catch (SQLException ex) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	}
+
+    }//GEN-LAST:event_panelProcedimientosComponentShown
+
+    private void bEjeProcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEjeProcActionPerformed
+	if (listProc.getSelectedValue() == null) {
+	    JOptionPane.showMessageDialog(panelProcedimientos, "Seleccione un procedimiento primero");
+	} else {
+	    try {
+		//Interfaz que permite ejecutar procedimientos
+		CallableStatement procedimiento = null;
+		String sql = null;
+		switch (listProc.getSelectedIndex()) {
+		    case (0):
+			sql = "{ call SUBIDA}";
+			procedimiento = conexion.prepareCall(sql);
+			procedimiento.executeUpdate();
+			JOptionPane.showMessageDialog(panelProcedimientos, "Procedimiento ejecutado con exito");
+			break;
+		    case (1):
+			sql = "{ ? = call SUMAR (?,?) }";
+			procedimiento = conexion.prepareCall(sql);
+			String n1 = JOptionPane.showInputDialog(panelProcedimientos, "Introduce el parametro 1");
+			procedimiento.setInt(2, Integer.parseInt(n1));
+			String n2 = JOptionPane.showInputDialog(panelProcedimientos, "Introduce el parametro 2");
+			procedimiento.setInt(3, Integer.parseInt(n2));
+
+			procedimiento.registerOutParameter(1, Types.INTEGER);
+			procedimiento.executeUpdate();
+			JOptionPane.showMessageDialog(panelProcedimientos, "El resultado del procedimiento es: " + String.valueOf(procedimiento.getInt(1)));
+
+		}
+	    } catch (SQLException ex) {
+		JOptionPane.showMessageDialog(panelProcedimientos, "Fallo en el procedimiento: " + ex.getMessage());
+	    }
+	}
+    }//GEN-LAST:event_bEjeProcActionPerformed
+
+    private void bMostrarInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bMostrarInformeActionPerformed
+	panelTab.setSelectedComponent(panelInformes);
+    }//GEN-LAST:event_bMostrarInformeActionPerformed
+
+    private void bAbrirInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAbrirInformeActionPerformed
+	JFileChooser ventanaSeleccion = new JFileChooser();
+	if (ventanaSeleccion.showOpenDialog(panelInformes) == JFileChooser.APPROVE_OPTION) {
+	    labelRuta.setText(ventanaSeleccion.getSelectedFile().getAbsolutePath());
+	}
+    }//GEN-LAST:event_bAbrirInformeActionPerformed
+
+    private void bGenerarInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGenerarInformeActionPerformed
+	if (labelRuta.getText().isEmpty()) {
+	    JOptionPane.showMessageDialog(panelInformes, "Tiene que seleccionar una plantilla primero.");
+	} else {
+	    JFileChooser ventanaGuardar = new JFileChooser();
+	    if (GrupoRadioButtonInforme.isSelected(rbHTML.getModel())) {
+		// el primer parametro de filenameExtensionFilter es la descripcion y lo segundo la extension
+		ventanaGuardar.setFileFilter(new FileNameExtensionFilter("HTML FILE", "html"));
+	    } else if (GrupoRadioButtonInforme.isSelected(rbPDF.getModel())) {
+		ventanaGuardar.setFileFilter(new FileNameExtensionFilter("PDF FILE", "pdf"));
+	    } else if (GrupoRadioButtonInforme.isSelected(rbXML.getModel())) {
+		ventanaGuardar.setFileFilter(new FileNameExtensionFilter("XML FILE", "xml"));
+	    }
+	    if (ventanaGuardar.showSaveDialog(panelInformes) == JFileChooser.APPROVE_OPTION) {
+		try {
+		    String reportSource = labelRuta.getText();
+		    Map<String, Object> param = new HashMap<String, Object>();
+		    param.put("titulo", "LISTADO DE DEPARTAMENTOS");
+		    param.put("autor", "Juan Francisco Díaz");
+		    param.put("fecha", (new java.util.Date().toString()));
+
+		    JasperReport jasperReport = JasperCompileManager.compileReport(reportSource);
+		    JasperPrint miInforme = JasperFillManager.fillReport(jasperReport, param, conexion);
+		    JasperViewer.viewReport(miInforme, false);
+		    if (GrupoRadioButtonInforme.isSelected(rbHTML.getModel())) {
+			// el primer parametro de filenameExtensionFilter es la descripcion y lo segundo la extension
+			String reportHTML = ventanaGuardar.getSelectedFile().getAbsolutePath()+".html";
+			JasperExportManager.exportReportToHtmlFile(miInforme, reportHTML);
+		    } else if (GrupoRadioButtonInforme.isSelected(rbPDF.getModel())) {
+			String reportPDF = ventanaGuardar.getSelectedFile().getAbsolutePath()+".pdf";
+			JasperExportManager.exportReportToPdfFile(miInforme, reportPDF);
+		    } else if (GrupoRadioButtonInforme.isSelected(rbXML.getModel())) {
+			String reportXML = ventanaGuardar.getSelectedFile().getAbsolutePath()+".xml";
+			JasperExportManager.exportReportToXmlFile(miInforme, reportXML, false);
+		    }
+		    
+		} catch (JRException ex) {
+		    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	    }
+	}
+	// las librerias jasper report permiten generar informes
+    }//GEN-LAST:event_bGenerarInformeActionPerformed
 
     private void modificarEmpleado() {
 	try {
@@ -1372,7 +1699,7 @@ public class MainForm extends javax.swing.JFrame {
 	    sentencia.setString(2, TFApeEmp.getText());
 	    sentencia.setString(3, TFOfiEmp.getText());
 	    sentencia.setInt(4, Integer.parseInt(nuevoEmpDir));
-	    sentencia.setDate(5, java.sql.Date(TFFAltEmp.getText()));
+	    sentencia.setDate(5, java.sql.Date.valueOf(TFFAltEmp.getText()));
 	    sentencia.setDouble(6, Double.parseDouble(TFSalEmp.getText()));
 	    sentencia.setDouble(7, Double.parseDouble(TFComEmp.getText()));
 	    sentencia.setInt(8, (Integer.parseInt(((String) CBDeptEmp.getSelectedItem()).substring(0, 2))));
@@ -1389,7 +1716,7 @@ public class MainForm extends javax.swing.JFrame {
 	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 	}
     }
-    
+
     private void insertarEmpleado() {
 	try {
 	    String nuevoEmpDir = (String) CBDirEmp.getSelectedItem();
@@ -1409,7 +1736,7 @@ public class MainForm extends javax.swing.JFrame {
 	    sentencia.setString(2, TFApeEmp.getText());
 	    sentencia.setString(3, TFOfiEmp.getText());
 	    sentencia.setInt(4, Integer.parseInt(nuevoEmpDir));
-	    sentencia.setDate(5, java.sql.Date(TFFAltEmp.getText()));
+	    sentencia.setDate(5, java.sql.Date.valueOf(TFFAltEmp.getText()));
 	    sentencia.setDouble(6, Double.parseDouble(TFSalEmp.getText()));
 	    sentencia.setDouble(7, Double.parseDouble(TFComEmp.getText()));
 	    sentencia.setInt(8, (Integer.parseInt(((String) CBDeptEmp.getSelectedItem()).substring(0, 2))));
@@ -1647,6 +1974,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JButton BVolver;
     private javax.swing.JComboBox<String> CBDeptEmp;
     private javax.swing.JComboBox<String> CBDirEmp;
+    private javax.swing.ButtonGroup GrupoRadioButtonInforme;
     private javax.swing.JPanel JPConIns;
     private javax.swing.JPanel JPInfoEmple;
     private javax.swing.JLabel LabelMainHead;
@@ -1661,15 +1989,20 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JTextField TFOfiEmp;
     private javax.swing.JTextField TFSalEmp;
     private javax.swing.JPanel TabScripts;
+    private javax.swing.JToggleButton bAbrirInforme;
     private javax.swing.JButton bAbrirScript;
     private javax.swing.JButton bAnterior;
     private javax.swing.JButton bBorrarTablas;
     private javax.swing.JButton bCrearTablas;
+    private javax.swing.JButton bEjeProc;
     private javax.swing.JButton bEjeScript;
+    private javax.swing.JButton bEjecutarPocedimientos;
     private javax.swing.JButton bEliminar;
+    private javax.swing.JButton bGenerarInforme;
     private javax.swing.JButton bInsertar;
     private javax.swing.JButton bInsertarDatos;
     private javax.swing.JButton bModificar;
+    private javax.swing.JButton bMostrarInforme;
     private javax.swing.JButton bPrimero;
     private javax.swing.JButton bSiguiente;
     private javax.swing.JButton bUltimo;
@@ -1694,24 +2027,34 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JLabel labelDeptClavePrimaria;
     private javax.swing.JLabel labelFKDept;
     private javax.swing.JLabel labelIdDept;
     private javax.swing.JLabel labelLocDept;
     private javax.swing.JLabel labelNomDept;
+    private javax.swing.JLabel labelRuta;
+    private javax.swing.JList<String> listProc;
     private javax.swing.JPanel panelControles;
     private javax.swing.JPanel panelGestionDiaria;
     private javax.swing.JPanel panelInfo;
+    private javax.swing.JPanel panelInformes;
     private javax.swing.JPanel panelMantenimiento;
+    private javax.swing.JPanel panelProcedimientos;
     private javax.swing.JTabbedPane panelTab;
+    private javax.swing.JRadioButton rbHTML;
+    private javax.swing.JRadioButton rbPDF;
+    private javax.swing.JRadioButton rbXML;
     private javax.swing.JPanel tabDepartamentos;
     private javax.swing.JPanel tabEmpleados;
     private javax.swing.JPanel tabInformacion;
