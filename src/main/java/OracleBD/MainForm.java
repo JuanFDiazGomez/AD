@@ -7,6 +7,7 @@
 package OracleBD;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -664,7 +666,12 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabel13.setText("Fecha Alta:");
 
-        TFFAltEmp.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("yyyy-MM-dd"))));
+        TFFAltEmp.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("d/MM/yyyy"))));
+        TFFAltEmp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TFFAltEmpActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Departamento:");
 
@@ -741,6 +748,11 @@ public class MainForm extends javax.swing.JFrame {
         JPInfoEmpleLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {TFComEmp, TFFAltEmp, TFSalEmp});
 
         BInicio.setText("Inicio");
+        BInicio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BInicioActionPerformed(evt);
+            }
+        });
 
         BConsultar.setText("Consultar");
         BConsultar.addActionListener(new java.awt.event.ActionListener() {
@@ -764,6 +776,11 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         BEliminar.setText("Eliminar");
+        BEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BEliminarActionPerformed(evt);
+            }
+        });
 
         BAceptar.setText("Aceptar");
         BAceptar.addActionListener(new java.awt.event.ActionListener() {
@@ -773,6 +790,11 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         BCancelar.setText("Cancelar");
+        BCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout JPConInsLayout = new javax.swing.GroupLayout(JPConIns);
         JPConIns.setLayout(JPConInsLayout);
@@ -1077,10 +1099,8 @@ public class MainForm extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelRuta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(bAbrirInforme)
-                        .addGap(0, 236, Short.MAX_VALUE)))
+                    .addComponent(labelRuta, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bAbrirInforme))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -1317,7 +1337,11 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_BVolverActionPerformed
 
     private void BAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BAceptarActionPerformed
-	insertarEmpleado();
+	if (TFNumEmp.isEditable()) {
+	    insertarEmpleado();
+	} else {
+	    modificarEmpleado();
+	}
     }//GEN-LAST:event_BAceptarActionPerformed
 
     private void BConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BConsultarActionPerformed
@@ -1327,13 +1351,13 @@ public class MainForm extends javax.swing.JFrame {
 		mostrarConsultarInsertar(Boolean.FALSE);
 		mostrarModificarEliminar(Boolean.TRUE);
 		BVolver.setVisible(Boolean.TRUE);
+		BVolver.setVisible(Boolean.TRUE);
 	    }
-
-	    BVolver.setVisible(Boolean.TRUE);
 	}
     }//GEN-LAST:event_BConsultarActionPerformed
 
     private void BInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BInsertarActionPerformed
+	restaurarEmple();
 	mostrarConsultarInsertar(Boolean.FALSE);
 	mostrarModificarEliminar(Boolean.FALSE);
 	mostrarAceptarCancelar(Boolean.TRUE);
@@ -1544,8 +1568,11 @@ public class MainForm extends javax.swing.JFrame {
     private void BModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BModificarActionPerformed
 	mostrarModificarEliminar(Boolean.FALSE);
 	mostrarAceptarCancelar(Boolean.TRUE);
-
-	modificarEmpleado();
+	desactivarCamposEmple(Boolean.FALSE);
+	TFNumEmp.setEditable(Boolean.FALSE);
+	BVolver.setVisible(Boolean.FALSE);
+	mostrarCamposDeptYDir();
+	//modificarEmpleado();
     }//GEN-LAST:event_BModificarActionPerformed
 
     private void bEjecutarPocedimientosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bEjecutarPocedimientosActionPerformed
@@ -1631,6 +1658,8 @@ public class MainForm extends javax.swing.JFrame {
 
     private void bAbrirInformeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bAbrirInformeActionPerformed
 	JFileChooser ventanaSeleccion = new JFileChooser();
+	ventanaSeleccion.setCurrentDirectory(new File("./src/main/resources"));
+	ventanaSeleccion.setFileFilter(new FileNameExtensionFilter("JASPER REPORT XML", "jrxml"));
 	if (ventanaSeleccion.showOpenDialog(panelInformes) == JFileChooser.APPROVE_OPTION) {
 	    labelRuta.setText(ventanaSeleccion.getSelectedFile().getAbsolutePath());
 	}
@@ -1662,16 +1691,16 @@ public class MainForm extends javax.swing.JFrame {
 		    JasperViewer.viewReport(miInforme, false);
 		    if (GrupoRadioButtonInforme.isSelected(rbHTML.getModel())) {
 			// el primer parametro de filenameExtensionFilter es la descripcion y lo segundo la extension
-			String reportHTML = ventanaGuardar.getSelectedFile().getAbsolutePath()+".html";
+			String reportHTML = ventanaGuardar.getSelectedFile().getAbsolutePath() + ".html";
 			JasperExportManager.exportReportToHtmlFile(miInforme, reportHTML);
 		    } else if (GrupoRadioButtonInforme.isSelected(rbPDF.getModel())) {
-			String reportPDF = ventanaGuardar.getSelectedFile().getAbsolutePath()+".pdf";
+			String reportPDF = ventanaGuardar.getSelectedFile().getAbsolutePath() + ".pdf";
 			JasperExportManager.exportReportToPdfFile(miInforme, reportPDF);
 		    } else if (GrupoRadioButtonInforme.isSelected(rbXML.getModel())) {
-			String reportXML = ventanaGuardar.getSelectedFile().getAbsolutePath()+".xml";
+			String reportXML = ventanaGuardar.getSelectedFile().getAbsolutePath() + ".xml";
 			JasperExportManager.exportReportToXmlFile(miInforme, reportXML, false);
 		    }
-		    
+
 		} catch (JRException ex) {
 		    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -1680,30 +1709,53 @@ public class MainForm extends javax.swing.JFrame {
 	// las librerias jasper report permiten generar informes
     }//GEN-LAST:event_bGenerarInformeActionPerformed
 
+    private void TFFAltEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TFFAltEmpActionPerformed
+	// TODO add your handling code here:
+    }//GEN-LAST:event_TFFAltEmpActionPerformed
+
+    private void BCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BCancelarActionPerformed
+	restaurarEmple();
+    }//GEN-LAST:event_BCancelarActionPerformed
+
+    private void BEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEliminarActionPerformed
+	try {
+	    restaurarEmple();
+	    if (JOptionPane.showConfirmDialog(tabEmpleados, "¿Seguro que desea borrar el empleado?") == 0) {
+		String sql = "DELETE FROM empleados WHERE emp_no = " + TFNumEmp.getText();
+		Statement sentencia = conexion.createStatement();
+		sentencia.executeUpdate(sql);
+		JOptionPane.showMessageDialog(tabEmpleados, "Empleado eliminado");
+	    }else{
+		JOptionPane.showMessageDialog(tabEmpleados, "Acción cancelada");
+	    }
+	} catch (SQLException ex) {
+	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
+	}
+    }//GEN-LAST:event_BEliminarActionPerformed
+
+    private void BInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BInicioActionPerformed
+	panelTab.setSelectedComponent(tabPrincipal);
+    }//GEN-LAST:event_BInicioActionPerformed
+
     private void modificarEmpleado() {
 	try {
 	    String nuevoEmpDir = (String) CBDirEmp.getSelectedItem();
-	    if (nuevoEmpDir.equals("Sin Director")) {
+	    if (nuevoEmpDir.equals("Sin director")) {
 		nuevoEmpDir = "0";
 	    } else {
 		nuevoEmpDir = nuevoEmpDir.substring(0, 4);
 	    }
-	    String fmod = TFFAltEmp.getText();
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	    Date fechaMod = sdf.parse(fmod);
-	    java.sql.Date fechaMod2 = java.sql.Date.valueOf(fechaMod.toString());
 
-	    String sql = "UPDATE TABLE empleados VALUES(?,?,?,?,?,?,?,?) WHERE emp_no = ?";
+	    String sql = "UPDATE empleados SET apellido = ?,oficio=?,dir = ?,fecha_alt = ?,salario = ?,comision = ?,dept_no = ? WHERE emp_no = ?";
 	    PreparedStatement sentencia = conexion.prepareStatement(sql);
-	    sentencia.setInt(1, Integer.parseInt(TFNumEmp.getText()));
-	    sentencia.setString(2, TFApeEmp.getText());
-	    sentencia.setString(3, TFOfiEmp.getText());
-	    sentencia.setInt(4, Integer.parseInt(nuevoEmpDir));
-	    sentencia.setDate(5, java.sql.Date.valueOf(TFFAltEmp.getText()));
-	    sentencia.setDouble(6, Double.parseDouble(TFSalEmp.getText()));
-	    sentencia.setDouble(7, Double.parseDouble(TFComEmp.getText()));
-	    sentencia.setInt(8, (Integer.parseInt(((String) CBDeptEmp.getSelectedItem()).substring(0, 2))));
-	    sentencia.setInt(1, Integer.parseInt(TFNumEmp.getText()));
+	    sentencia.setString(1, TFApeEmp.getText());
+	    sentencia.setString(2, TFOfiEmp.getText());
+	    sentencia.setInt(3, Integer.parseInt(nuevoEmpDir));
+	    sentencia.setDate(4, new java.sql.Date(((java.util.Date) TFFAltEmp.getFormatter().stringToValue(TFFAltEmp.getText())).getTime()));
+	    sentencia.setDouble(5, Double.parseDouble(TFSalEmp.getText()));
+	    sentencia.setDouble(6, Double.parseDouble(TFComEmp.getText()));
+	    sentencia.setInt(7, (Integer.parseInt(((String) CBDeptEmp.getSelectedItem()).substring(0, 2))));
+	    sentencia.setInt(8, Integer.parseInt(TFNumEmp.getText()));
 	    int numInsertado = sentencia.executeUpdate();
 	    if (numInsertado > 0) {
 		JOptionPane.showMessageDialog(tabEmpleados, "Empleado modificado");
@@ -1720,15 +1772,11 @@ public class MainForm extends javax.swing.JFrame {
     private void insertarEmpleado() {
 	try {
 	    String nuevoEmpDir = (String) CBDirEmp.getSelectedItem();
-	    if (nuevoEmpDir.equals("Sin Director")) {
+	    if (nuevoEmpDir.equals("Sin director")) {
 		nuevoEmpDir = "0";
 	    } else {
 		nuevoEmpDir = nuevoEmpDir.substring(0, 4);
 	    }
-	    String fmod = TFFAltEmp.getText();
-	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	    Date fechaMod = sdf.parse(fmod);
-	    java.sql.Date fechaMod2 = java.sql.Date.valueOf(fechaMod.toString());
 
 	    String sql = "INSERT INTO empleados VALUES(?,?,?,?,?,?,?,?)";
 	    PreparedStatement sentencia = conexion.prepareStatement(sql);
@@ -1736,7 +1784,7 @@ public class MainForm extends javax.swing.JFrame {
 	    sentencia.setString(2, TFApeEmp.getText());
 	    sentencia.setString(3, TFOfiEmp.getText());
 	    sentencia.setInt(4, Integer.parseInt(nuevoEmpDir));
-	    sentencia.setDate(5, java.sql.Date.valueOf(TFFAltEmp.getText()));
+	    sentencia.setDate(5, new java.sql.Date(((java.util.Date) TFFAltEmp.getFormatter().stringToValue(TFFAltEmp.getText())).getTime()));
 	    sentencia.setDouble(6, Double.parseDouble(TFSalEmp.getText()));
 	    sentencia.setDouble(7, Double.parseDouble(TFComEmp.getText()));
 	    sentencia.setInt(8, (Integer.parseInt(((String) CBDeptEmp.getSelectedItem()).substring(0, 2))));
@@ -1745,6 +1793,8 @@ public class MainForm extends javax.swing.JFrame {
 		JOptionPane.showMessageDialog(tabEmpleados, "Empleado insertado");
 	    }
 	    restaurarEmple();
+	} catch(java.sql.SQLIntegrityConstraintViolationException ex ){
+	    JOptionPane.showMessageDialog(tabEmpleados, ex.getMessage());
 	} catch (SQLException ex) {
 	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 	    JOptionPane.showMessageDialog(tabEmpleados, "Error: No se pudo insertar el empleado");
@@ -1761,7 +1811,14 @@ public class MainForm extends javax.swing.JFrame {
 
 	    while (resultCompartido.next()) {
 		String depart = String.valueOf(resultCompartido.getInt("dept_no")) + " | " + resultCompartido.getString("dnombre");
-		CBDeptEmp.addItem(depart);
+		if (CBDeptEmp.getItemCount() > 0) {
+		    if (!CBDeptEmp.getItemAt(0).equals(depart)) {
+			CBDeptEmp.addItem(depart);
+		    }
+		} else {
+		    CBDeptEmp.addItem(depart);
+		}
+
 	    }
 
 	    sql = "SELECT * FROM empleados";
@@ -1771,7 +1828,13 @@ public class MainForm extends javax.swing.JFrame {
 	    CBDirEmp.addItem(no_dir);
 	    while (resultCompartido.next()) {
 		String dir = String.valueOf(resultCompartido.getInt("emp_no")) + " | " + resultCompartido.getString("apellido");
-		CBDirEmp.addItem(dir);
+		if (CBDirEmp.getItemCount() > 0) {
+		    if (!CBDirEmp.getItemAt(0).equals(dir)) {
+			CBDirEmp.addItem(dir);
+		    }
+		} else {
+		    CBDirEmp.addItem(dir);
+		}
 	    }
 
 	} catch (SQLException ex) {
@@ -1821,6 +1884,7 @@ public class MainForm extends javax.swing.JFrame {
 		return true;
 	    } else {
 		JOptionPane.showMessageDialog(tabEmpleados, "El id no se encuentra en nuestra BBDD");
+		restaurarEmple();
 		return false;
 	    }
 
