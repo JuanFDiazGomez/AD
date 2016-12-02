@@ -1644,6 +1644,9 @@ public class MainForm extends javax.swing.JFrame {
 			procedimiento.registerOutParameter(1, Types.INTEGER);
 			procedimiento.executeUpdate();
 			JOptionPane.showMessageDialog(panelProcedimientos, "El resultado del procedimiento es: " + String.valueOf(procedimiento.getInt(1)));
+			break;
+		    case (2):
+			
 
 		}
 	    } catch (SQLException ex) {
@@ -1719,11 +1722,11 @@ public class MainForm extends javax.swing.JFrame {
 
     private void BEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BEliminarActionPerformed
 	try {
-	    restaurarEmple();
 	    if (JOptionPane.showConfirmDialog(tabEmpleados, "¿Seguro que desea borrar el empleado?") == 0) {
-		String sql = "DELETE FROM empleados WHERE emp_no = " + TFNumEmp.getText();
+		String sql = String.format("DELETE FROM empleados WHERE emp_no = '%s'",TFNumEmp.getText());
 		Statement sentencia = conexion.createStatement();
 		sentencia.executeUpdate(sql);
+		restaurarEmple();
 		JOptionPane.showMessageDialog(tabEmpleados, "Empleado eliminado");
 	    }else{
 		JOptionPane.showMessageDialog(tabEmpleados, "Acción cancelada");
@@ -1740,7 +1743,7 @@ public class MainForm extends javax.swing.JFrame {
     private void modificarEmpleado() {
 	try {
 	    String nuevoEmpDir = (String) CBDirEmp.getSelectedItem();
-	    if (nuevoEmpDir.equals("Sin director")) {
+	    if (nuevoEmpDir.equals("Sin Director")) {
 		nuevoEmpDir = "0";
 	    } else {
 		nuevoEmpDir = nuevoEmpDir.substring(0, 4);
@@ -1772,7 +1775,7 @@ public class MainForm extends javax.swing.JFrame {
     private void insertarEmpleado() {
 	try {
 	    String nuevoEmpDir = (String) CBDirEmp.getSelectedItem();
-	    if (nuevoEmpDir.equals("Sin director")) {
+	    if (nuevoEmpDir.equals("Sin Director")) {
 		nuevoEmpDir = "0";
 	    } else {
 		nuevoEmpDir = nuevoEmpDir.substring(0, 4);
@@ -1824,7 +1827,7 @@ public class MainForm extends javax.swing.JFrame {
 	    sql = "SELECT * FROM empleados";
 	    sentencia = conexion.createStatement();
 	    resultCompartido = sentencia.executeQuery(sql);
-	    String no_dir = "Sin director";
+	    String no_dir = "Sin Director";
 	    CBDirEmp.addItem(no_dir);
 	    while (resultCompartido.next()) {
 		String dir = String.valueOf(resultCompartido.getInt("emp_no")) + " | " + resultCompartido.getString("apellido");
