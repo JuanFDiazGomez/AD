@@ -4,10 +4,10 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Coffee_Landscape_Table_Based" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="66519d71-4f27-4833-9a1d-c9b72e811f0c">
 	<property name="template.engine" value="tabular_template"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true"/>
-	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
-	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
-	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Title" fontName="FreeSans" fontSize="50" isBold="true"/>
+	<style name="SubTitle" forecolor="#736343" fontName="FreeSans" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="FreeSans" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="FreeSans" fontSize="12"/>
 	<style name="Row" mode="Transparent">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
@@ -85,7 +85,7 @@
 			<staticText>
 				<reportElement style="SubTitle" x="303" y="62" width="196" height="22" uuid="0d849401-f944-4163-9df0-f69408a0618a"/>
 				<textElement>
-					<font fontName="Times New Roman"/>
+					<font fontName="FreeSans"/>
 				</textElement>
 				<text><![CDATA[Imaginary Enterprise]]></text>
 			</staticText>
@@ -151,7 +151,7 @@
 								<reportElement key="" style="SubTitle" x="0" y="0" width="100" height="30" forecolor="#736343" uuid="4a76ab25-65f7-4e9f-afa9-21172a58b806"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="FreeSans" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Nº Emple]]></text>
 							</staticText>
@@ -162,7 +162,7 @@
 								<reportElement style="Detail" x="0" y="0" width="100" height="30" uuid="30257cef-ee5e-4edd-b6ac-7ceae48773d4"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="12"/>
+									<font fontName="FreeSans" size="12"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{emp_no}]]></textFieldExpression>
 							</textField>
@@ -176,7 +176,7 @@
 								<reportElement key="" style="SubTitle" x="0" y="0" width="90" height="30" forecolor="#736343" uuid="ce0d1f59-1d3b-44cb-b826-e768e1997a9e"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="FreeSans" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Apellido]]></text>
 							</staticText>
@@ -187,7 +187,7 @@
 								<reportElement style="Detail" x="0" y="0" width="90" height="30" uuid="ec50c119-7807-45d8-8b63-f307f55f476b"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="12"/>
+									<font fontName="FreeSans" size="12"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{apellido}]]></textFieldExpression>
 							</textField>
@@ -201,7 +201,7 @@
 								<reportElement key="" style="SubTitle" x="0" y="0" width="90" height="30" forecolor="#736343" uuid="a55411ff-1667-4cca-93c7-6fe6da55df5c"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="FreeSans" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Oficio]]></text>
 							</staticText>
@@ -212,7 +212,7 @@
 								<reportElement style="Detail" x="0" y="0" width="90" height="30" uuid="29fe2b5b-b9f7-4ff1-95a4-9813dda441b9"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="12"/>
+									<font fontName="FreeSans" size="12"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{oficio}]]></textFieldExpression>
 							</textField>
@@ -226,7 +226,7 @@
 								<reportElement key="" style="SubTitle" x="0" y="0" width="90" height="30" forecolor="#736343" uuid="867ec151-95ed-43e6-9b4f-51c095d53ff9"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="FreeSans" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Direc]]></text>
 							</staticText>
@@ -237,7 +237,7 @@
 								<reportElement style="Detail" x="0" y="0" width="90" height="30" uuid="49d79b0d-a96e-4ad9-85b4-a7e42d921edd"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="12"/>
+									<font fontName="FreeSans" size="12"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{dir}]]></textFieldExpression>
 							</textField>
@@ -251,7 +251,7 @@
 								<reportElement key="" style="SubTitle" x="0" y="0" width="90" height="30" forecolor="#736343" uuid="415d35c5-ab5a-43a1-883e-9222196355f5"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="FreeSans" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Alta]]></text>
 							</staticText>
@@ -262,7 +262,7 @@
 								<reportElement style="Detail" x="0" y="0" width="90" height="30" uuid="70b01b5b-c5d5-4075-97b1-971b636a91a3"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="12"/>
+									<font fontName="FreeSans" size="12"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{fecha_alt}]]></textFieldExpression>
 							</textField>
@@ -276,7 +276,7 @@
 								<reportElement key="" style="SubTitle" x="0" y="0" width="90" height="30" forecolor="#736343" uuid="16e80c02-6abd-44a5-80f6-9fc774e4b0ad"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="FreeSans" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Salario]]></text>
 							</staticText>
@@ -287,7 +287,7 @@
 								<reportElement style="Detail" x="0" y="0" width="90" height="30" uuid="eca88222-63c8-4bb0-94a1-03c843fc6b3a"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="12"/>
+									<font fontName="FreeSans" size="12"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{salario}]]></textFieldExpression>
 							</textField>
@@ -301,7 +301,7 @@
 								<reportElement key="" style="SubTitle" x="0" y="0" width="90" height="30" forecolor="#736343" uuid="b82fb617-ca05-45a4-9879-ac6e010158fb"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="FreeSans" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Comision]]></text>
 							</staticText>
@@ -312,7 +312,7 @@
 								<reportElement style="Detail" x="0" y="0" width="90" height="30" uuid="99602b99-5a5e-452c-ad54-adbd87424d9a"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="12"/>
+									<font fontName="FreeSans" size="12"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{comision}]]></textFieldExpression>
 							</textField>
@@ -326,7 +326,7 @@
 								<reportElement key="" style="SubTitle" x="0" y="0" width="90" height="30" forecolor="#736343" uuid="b047d19f-5f23-4c6c-a5d3-b8dd8f9d9c0b"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="18" isBold="true"/>
+									<font fontName="FreeSans" size="18" isBold="true"/>
 								</textElement>
 								<text><![CDATA[Nº Dept]]></text>
 							</staticText>
@@ -337,7 +337,7 @@
 								<reportElement style="Detail" x="0" y="0" width="90" height="30" uuid="9b6454a3-396d-4666-aa64-8b67e86c5bdd"/>
 								<box leftPadding="2"/>
 								<textElement>
-									<font fontName="Arial" size="12"/>
+									<font fontName="FreeSans" size="12"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{dept_no}]]></textFieldExpression>
 							</textField>
