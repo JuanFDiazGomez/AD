@@ -14,16 +14,13 @@ import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.util.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -1425,7 +1422,7 @@ public class MainForm extends javax.swing.JFrame {
 	    tablaInfoBBDD.setValueAt(dbmd.getURL(), 0, 2);
 	    tablaInfoBBDD.setValueAt(dbmd.getUserName(), 0, 3);
 
-	    ResultSet result = dbmd.getTables("MySQLDB.db", null, "%", null);
+	    ResultSet result = dbmd.getTables("mysqlExample", null, "%", null);
 	    result.last();
 	    int numeroFilas = result.getRow();
 	    result.beforeFirst();
@@ -1440,7 +1437,7 @@ public class MainForm extends javax.swing.JFrame {
 		filas++;
 	    }
 
-	    result = dbmd.getColumns(null, "MySQLDB.db", "departamentos", "%");
+	    result = dbmd.getColumns(null, "mysqlExample", "departamentos", "%");
 	    result.last();
 	    numeroFilas = result.getRow();
 	    result.beforeFirst();
@@ -1456,7 +1453,7 @@ public class MainForm extends javax.swing.JFrame {
 		filas++;
 	    }
 	    String pkDep = labelDeptClavePrimaria.getText() + "{ ";
-	    result = dbmd.getPrimaryKeys("MySQLDB.db", "MySQLDB.db", "departamentos");
+	    result = dbmd.getPrimaryKeys("mysqlExample", "mysqlExample", "departamentos");
 	    String separador = " ,";
 
 	    while (result.next()) {
@@ -1469,7 +1466,7 @@ public class MainForm extends javax.swing.JFrame {
 	    }
 	    labelDeptClavePrimaria.setText(pkDep);
 
-	    result = dbmd.getExportedKeys("MySQLDB.db", "MySQLDB.db", "departamentos");
+	    result = dbmd.getExportedKeys("mysqlExample", "mysqlExample", "departamentos");
 	    StringBuilder sb = new StringBuilder();
 
 	    while (result.next()) {
@@ -1582,7 +1579,7 @@ public class MainForm extends javax.swing.JFrame {
     private void panelProcedimientosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelProcedimientosComponentShown
 	try {
 	    DatabaseMetaData dbmd = conexion.getMetaData();
-	    ResultSet result = dbmd.getProcedures("MySQLDB.db", "MySQLDB.db", "%");
+	    ResultSet result = dbmd.getProcedures("mysqlExample", "mysqlExample", "%");
 
 	    result.last();
 	    int rows = result.getRow();
@@ -1593,7 +1590,7 @@ public class MainForm extends javax.swing.JFrame {
 		String proc_name = result.getString("PROCEDURE_NAME");
 		String proc_type = result.getString("PROCEDURE_TYPE");
 		StringBuilder sb_contructorProcedimiento = new StringBuilder();
-		ResultSet result_col_proc = dbmd.getProcedureColumns("MySQLDB.db", "MySQLDB.db", proc_name, "%");
+		ResultSet result_col_proc = dbmd.getProcedureColumns("mysqlExample", "mysqlExample", proc_name, "%");
 		sb_contructorProcedimiento.append(proc_type);
 		sb_contructorProcedimiento.append(" " + proc_name);
 
@@ -1646,8 +1643,38 @@ public class MainForm extends javax.swing.JFrame {
 			JOptionPane.showMessageDialog(panelProcedimientos, "El resultado del procedimiento es: " + String.valueOf(procedimiento.getInt(1)));
 			break;
 		    case (2):
-			
-
+                        sql = "{ call datos_dep(?,?,?)}";
+                        procedimiento = conexion.prepareCall(sql);
+                        String num_Dept = JOptionPane.showInputDialog(panelProcedimientos, "Introduce el numero de departamento");
+                        procedimiento.setInt(1, Integer.parseInt(num_Dept));
+                        procedimiento.registerOutParameter(2, Types.VARCHAR);
+                        procedimiento.registerOutParameter(3, Types.VARCHAR);
+                        procedimiento.executeUpdate();
+                        JOptionPane.showMessageDialog(panelProcedimientos, 
+                                "Nombre: "+ String.valueOf(procedimiento.getString(2))
+                                +System.getProperty("line.separator")+
+                                "Localidad: "+String.valueOf(procedimiento.getString(3))
+                        );
+                        break;
+                    case (3):
+                        sql = "{ ? = call nombre_dep (?) }";
+                        procedimiento = conexion.prepareCall(sql);
+                        String nDept = JOptionPane.showInputDialog(panelProcedimientos, "Introduce el numero de departamento");
+                        procedimiento.setInt(2, Integer.parseInt(nDept));
+                        procedimiento.registerOutParameter(1, Types.VARCHAR);
+                        procedimiento.executeUpdate();
+                        JOptionPane.showMessageDialog(panelProcedimientos, "El nombre del departamento es: "+ String.valueOf(procedimiento.getString(1)));
+                        break;
+                    case (4):
+                        sql = "{ call subida_sal(?,?)}";
+                        procedimiento = conexion.prepareCall(sql);
+                        String numero_depart = JOptionPane.showInputDialog(panelProcedimientos, "Introduce el numero de departamento");
+                        String cantidad = JOptionPane.showInputDialog(panelProcedimientos, "Introduce el aumento");
+                        procedimiento.setInt(1, Integer.parseInt(numero_depart));
+                        procedimiento.setInt(2, Integer.parseInt(cantidad));
+                        procedimiento.executeUpdate();
+                        JOptionPane.showMessageDialog(panelProcedimientos, "Aumento realizado");
+                        break;
 		}
 	    } catch (SQLException ex) {
 		JOptionPane.showMessageDialog(panelProcedimientos, "Fallo en el procedimiento: " + ex.getMessage());
@@ -1967,7 +1994,7 @@ public class MainForm extends javax.swing.JFrame {
     private void crearConexionBD() {
 	try {
 	    Class.forName("com.mysql.cj.jdbc.Driver");
-	    conexion = DriverManager.getConnection("jdbc:mysql://localhost/MySQLDB.db?useSSL=false&allowMultiQueries=true", "root", "sephir0th");
+	    conexion = DriverManager.getConnection("jdbc:mysql://localhost/mysqlExample?useSSL=false&allowMultiQueries=true", "root", "sephir0th");
 
 	} catch (ClassNotFoundException | SQLException ex) {
 	    Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
